@@ -39,3 +39,14 @@ luac.out
 *.x86_64
 *.hex
 
+# Manually Added
+*.swp
+*.tmp
+*.log
+*_temp
+log.*
+*.py[cod]
+.DS_Store
+._*
+*.out
+*.err
