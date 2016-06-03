@@ -51,3 +51,4 @@ log.*
 *.out
 *.err
 nginx
+*.pid
