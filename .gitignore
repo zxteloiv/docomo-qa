@@ -52,3 +52,5 @@ log.*
 *.err
 nginx
 *.pid
+
+conf/service.conf
