@@ -1,9 +1,9 @@
 ngx.req.read_body()
-local args = ngx.req.get_post_args()
+local POST = ngx.req.get_post_args()
 local rapidjson = require("rapidjson")
 
-if args['q'] then
-    query = args['q']
+if POST.q then
+    query = POST.q
 
     local res = ngx.location.capture(
         '/api/external/jieba',
