@@ -2,7 +2,7 @@
 --
 local json = require("rapidjson")
 local analyzer = require("./lua/answer/analyzer")
-local reponder = require("./lua/answer/responder")
+local responder = require("./lua/answer/responder")
 
 -- process POST arguments
 --
@@ -20,8 +20,6 @@ else
     lng = nil
     lat = nil
 end
-
-ngx.say("after redirect")
 
 -- answer the query
 --
