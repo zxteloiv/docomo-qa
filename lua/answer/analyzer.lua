@@ -47,7 +47,7 @@ local function analyze(question, lng, lat)
     return {
         errno = 0,
         errmsg = '',
-        qtype = QTYPE.UNKNOWN,
+        query_struct = query_struct,
         pos = {},
         parse = {},
         depparse = {},
@@ -56,6 +56,7 @@ end
 
 -- export symbols
 M_.QTYPE = QTYPE
+M_.POI_ATTR = POI_ATTR
 M_.analyze = analyze
 
 return M_
