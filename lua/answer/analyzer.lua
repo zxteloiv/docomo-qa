@@ -1,27 +1,39 @@
 local M_ = {}
 
+-- enum of available question types
+local QTYPE = {
+    UNKNOWN = 0,        -- questions that we cannot answer
+    PIPELINE = 1,       -- a question with a few consequent seaching actions
+}
+
+-- enum of available POI attributes
 local POI_ATTR = {
-    NAME = false,
-    
-    LOCATION = {nil, nil},
+    NAME = 0,
 
-    ADDRESS = {
-        CITY = false,
-        DISTRICT = false,
-        STREET = false
-    },
+    COORDINATES = 1,
+    OPEN_TIME = 2,
+    PRICE = 3,
 
-    OPEN_TIME = nil,
-    PRICE = nil,
+    ADDRESS = 20,
+    CITY = 21,
+    DISTRICT = 22,
+    STREET = 23,
 
-    DESC = nil,
+    DESC = 100
 }
 
 -- question types
-local QTYPE = {
-    UNKNOWN = 0,        -- questions that we cannot answer
+-- Since each query is a single question and no more instance is required, 
+-- we choose to use an object instance rather than an all-round class here.
+local query_struct = {
+    qtype = QTYPE.PIPELINE,
 
-    SENTIMENTAL = false,
+    input = {POI_ATTR.NAME, POI_ATTR.CITY},
+    output = {{POI_ATTR.ADDRESS}},
+
+    -- a simple mechanism to indicate whether a question as a whole contains
+    -- sentiment, a value with larger integer means more sentiment
+    sentiment = 0,
 }
 
 -- analyze a question, input the question string, and longitude and latitude in float numbers
