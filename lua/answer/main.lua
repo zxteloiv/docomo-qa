@@ -15,7 +15,6 @@ end
 
 if POST.lng and POST.lat then
     lng, lat = POST.lng, POST.lat
-
 else
     lng = nil
     lat = nil
@@ -24,6 +23,8 @@ end
 -- answer the query
 --
 query_analysis = analyzer.analyze(POST.q, lng, lat)
+
+do ngx.say(json.encode(query_analysis)) return end
 
 answer = responder.answer(query_analysis, lng, lat)
 
