@@ -25,10 +25,11 @@ local POI_ATTR = {
 -- question types
 -- Since each query is a single question and no more instance is required, 
 -- we choose to use an object instance rather than an all-round class here.
-local query_struct = {
+local query_repr = {
     qtype = QTYPE.PIPELINE,
 
-    input = {POI_ATTR.NAME, POI_ATTR.CITY},
+    input_schema = {POI_ATTR.NAME, POI_ATTR.CITY},
+    input_value = {nil, nil},
     output = {{POI_ATTR.ADDRESS}},
 
     -- a simple mechanism to indicate whether a question as a whole contains
@@ -47,7 +48,7 @@ local function analyze(question, lng, lat)
     return {
         errno = 0,
         errmsg = '',
-        query_struct = query_struct,
+        query_repr = query_repr,
         pos = {},
         parse = {},
         depparse = {},
