@@ -22,7 +22,8 @@ local POI_ATTR = {
     DESC = 100
 }
 
--- question representation
+-- question representation class constructor
+--
 local QueryRepr = {}
 QueryRepr.new = function()
     return {

@@ -1,6 +1,7 @@
 local M_ = {}
 
 local rules = require("./lua/answer/rules/loader")
+local query_schema = require("./lua/answer/query_schema") 
 
 -- analyze a question, input the question string, and longitude and latitude in float numbers
 --  @question a string of question
@@ -10,14 +11,11 @@ local rules = require("./lua/answer/rules/loader")
 --  @return a question analysis report
 --
 local function analyze(question, lng, lat)
+    local QueryRepr = query_schema.QueryRepr
     query_repr = QueryRepr.new()
 
-    for rule in rules do
-        if not rule.match then
-            continue
-        end
-
-        if rule.match(question, query_repr) then
+    for _, rule in pairs(rules) do
+        if rule.match and rule.match(question, query_repr) then
             break
         end
     end
