@@ -23,7 +23,7 @@ local function analyze(question, lng, lat)
     return {
         errno = 0,
         errmsg = '',
-        query_repr = QueryRepr.new(),
+        query_repr = query_repr,
         pos = {},
         parse = {},
         depparse = {},
