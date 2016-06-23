@@ -3,7 +3,7 @@ local RULE_ = {}
 local qs = require("./lua/answer/query_schema")
 local ts = require("./lua/answer/template_schema")
 
-RULE_.match = function (question, query_repr) 
+RULE_.match = function (query_repr, question)
     ngx.say("in empty rule")
 
     query_repr:set_qtype(qs.QTYPE.PIPELINE)

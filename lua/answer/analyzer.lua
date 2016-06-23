@@ -14,11 +14,8 @@ local function analyze(question, lng, lat)
     local QueryRepr = query_schema.QueryRepr
     query_repr = QueryRepr.new()
 
-    for _, rule in pairs(rules) do
-        if rule.match and rule.match(question, query_repr) then
-            break
-        end
-    end
+    -- match and modify the query representation for specific rules
+    rules.match(query_repr, question, lng, lat)
 
     return {
         errno = 0,
