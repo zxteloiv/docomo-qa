@@ -1,3 +1,5 @@
+local M_ = {}
+
 local ts = require("./lua/answer/template_schema")
 local qs = require("./lua/answer/query_schema")
 
@@ -29,21 +31,18 @@ end
 --     the word is the pattern itself and position is the index after the pattern.
 --     Otherwise, the returned word is nil and position is 0.
 --
-local function str_starts_with(str, pattern, from)
+local str_starts_with = function (str, pattern, from)
     if not from then from = 1 end -- if from is missing, start from the beginning
+    if not str or not pattern then return nil, 0 end
     local len = #pattern
+    if len == 0 then return nil, 0 end
 
     local is_matched = true
     for i = from, len do
-        if not str.byte[i] or not pattern.byte[i] then
+        if not str:byte(i) or str:byte(i) ~= pattern:byte(i) then
             is_matched = false
             break
         end
-        if str.byte[i] ~= pattern.byte[i] then
-            is_matched = false
-            break
-        end
-        
     end
 
     -- this tenary operator trick is tested here only and may not work elsewhere
@@ -58,4 +57,8 @@ function Container:run (query_repr, question, lng, lat)
     return true
 end
 
-return Container
+-- export symbols
+M_.Container = Container
+M_.str_starts_with = str_starts_with
+
+return M_

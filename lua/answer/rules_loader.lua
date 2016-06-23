@@ -1,7 +1,7 @@
 local M_ = {}
 
 local empty_runner = require("./lua/answer/rules/empty")
-local template_container = require("./lua/answer/simple_template_container")
+local template_container = require("./lua/answer/simple_template_container").Container
 
 local rule_list = {
     {empty_runner, nil},
