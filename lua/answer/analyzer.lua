@@ -1,6 +1,6 @@
 local M_ = {}
 
-local rules = require("./lua/answer/rules/loader")
+local rules = require("./lua/answer/rules_loader")
 local query_schema = require("./lua/answer/query_schema") 
 
 -- analyze a question, input the question string, and longitude and latitude in float numbers
