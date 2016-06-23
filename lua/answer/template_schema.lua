@@ -10,9 +10,18 @@ local RULE_TYPE = {
     REJECT = 1,
 }
 
+-- Match Type
+-- the rule of matching could be either exact match, or fuzzy match.
+-- A fuzzy match will ignore the preceeding terms if they doesn't match the rule,
+-- while an exact match doesn't.
+local MATCH_TYPE = {
+    EXACT = 0,
+    FUZZY = 1
+}
+
 -- Match unit types of a rule
 -- Each match unit could be a plain TEXT, a Regular Expression or a DICTionary.
-local MATCH_UNIT_TYPE = {
+local UNIT_TYPE = {
     TEXT = 0,
     RE = 1,
     DICT = 2
@@ -29,6 +38,6 @@ local FILL_TAGS = {
 -- export symbols
 --
 M_.RULE_TYPE = RULE_TYPE
-M_.MATCH_UNIT_TYPE = MATCH_UNIT_TYPE
+M_.UNIT_TYPE = UNIT_TYPE
 
 return M_
