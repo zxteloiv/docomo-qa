@@ -1,8 +1,14 @@
 local M_ = {}
 
+local empty_runner = require("./lua/answer/rules/empty")
+local template_container = require("./lua/answer/simple_template_container")
+
 local rule_list = {
-    {require("./lua/answer/rules/empty"), nil},
+    {empty_runner, nil},
+    {template_container, require("./lua/answer/rules/example_template")},
 }
+
+local function is_container(rule) return (rule[2] ~= nil) end
 
 -- function match
 -- set the correct query representation struct by matching the question to rules
@@ -16,12 +22,15 @@ local rule_list = {
 --
 function match(query_repr, question, lng, lat)
     for _, rule in pairs(rule_list) do
-        if rule[2] then
-            runner = rule[1](rule[2])
-            runner.match(query_repr, question, lng, lat)
+        local matched = false
+        if is_container(rule) then
+            local runner = rule[1](rule[2])
+            matched = runner.run(query_repr, question, lng, lat)
         else
-            rule[1].match(query_repr, question, lng, lat)
+            matched = rule[1].match(query_repr, question, lng, lat)
         end
+
+        if matched then break end
     end
 end
 

@@ -25,7 +25,5 @@ local conf = {
     }
 }
 
-ngx.say("in example_template")
-
 return conf
 

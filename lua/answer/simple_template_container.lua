@@ -16,6 +16,7 @@ Container.new = function(template)
 end
 
 function Container:run (query_repr, question, lng, lat)
+    return true
 end
 
 return Container
