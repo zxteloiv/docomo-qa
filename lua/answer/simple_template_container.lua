@@ -56,6 +56,9 @@ end
 --     If the pattern is not matched, two 0 will be returned.
 --
 local str_starts_with_re = function (str, pattern, from)
+    if not str or not pattern then return 0, 0 end
+    if #str == 0 or #pattern == 0 then return 0, 0 end
+
     local ctx = {pos = from}
     local from, to, err = ngx.re.find(str, pattern, "ajou", ctx)
 
@@ -74,5 +77,6 @@ end
 -- export symbols
 M_.Container = Container
 M_.str_starts_with = str_starts_with
+M_.str_starts_with_re = str_starts_with_re
 
 return M_
