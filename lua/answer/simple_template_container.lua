@@ -3,23 +3,6 @@ local M_ = {}
 local ts = require("./lua/answer/template_schema")
 local qs = require("./lua/answer/query_schema")
 
-local Container = setmetatable({}, {
-    __call = function (cls, template)
-        return cls.new(template)
-    end,
-})
-
-Container.match = function()
-    assert(false, "container should not run directly")
-end
-
-Container.__index = Container
-Container.new = function(template)
-    local self = { rule = template }
-    setmetatable(self, Container)
-    return self
-end
-
 -- match type text
 -- Check if the string matches the text pattern, for the best performance
 --
@@ -68,6 +51,26 @@ local str_starts_with_re = function (str, pattern, from)
         return 0, 0
     end
 
+end
+
+-- the main container class
+-- The class will take a template and then execute as the template is configured.
+--
+local Container = setmetatable({}, {
+    __call = function (cls, template)
+        return cls.new(template)
+    end,
+})
+
+Container.match = function()
+    assert(false, "container should not run directly")
+end
+
+Container.__index = Container
+Container.new = function(template)
+    local self = { rule = template }
+    setmetatable(self, Container)
+    return self
 end
 
 function Container:run (query_repr, question, lng, lat)
