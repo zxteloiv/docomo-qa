@@ -75,8 +75,11 @@ local function str_starts_with_re_test()
     ngx.say("str_starts_with_re_test success (8/8)")
 end
 
-return function()
+local test_func = function()
     str_starts_with_test()
     str_starts_with_re_test()
 end
+
+return test_func
+
 

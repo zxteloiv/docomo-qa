@@ -1,6 +1,6 @@
 local qs = require("./lua/answer/query_schema")
 
-return function ()
+local test_func = function ()
     obj = qs.QueryRepr()
 
     obj:set_qtype(qs.QTYPE.PIPELINE)
@@ -24,3 +24,5 @@ return function ()
 
     ngx.say("query_schema_test all successful (11/11)")
 end
+
+return test_func
