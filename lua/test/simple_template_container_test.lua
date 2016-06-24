@@ -3,43 +3,43 @@ local template_container = require("./lua/answer/simple_template_container")
 local str_starts_with = template_container.str_starts_with
 
 local function str_starts_with_test()
-    local w, pos = str_starts_with("abc", "abc")
-    assert(w == "abc" and pos == 4)
+    local from, to = str_starts_with("abc", "abc")
+    assert(from == 1 and to == 3)
 
-    w, pos = str_starts_with("abc", "ab")
-    assert(w == "ab" and pos == 3)
+    from, to = str_starts_with("abc", "ab")
+    assert(from == 1 and to == 2)
 
-    w, pos = str_starts_with("", "abc")
-    assert(w == nil and pos == 0)
+    from, to = str_starts_with("", "abc")
+    assert(from == 0 and to == 0)
 
-    w, pos = str_starts_with("2.71828", "")
-    assert(w == nil and pos == 0)
+    from, to = str_starts_with("2.71828", "")
+    assert(from == 0 and to == 0)
 
-    w, pos = str_starts_with(nil, "abc")
-    assert(w == nil and pos == 0)
+    from, to = str_starts_with(nil, "abc")
+    assert(from == 0 and to == 0)
 
-    w, pos = str_starts_with("3.14159", nil)
-    assert(w == nil and pos == 0)
+    from, to = str_starts_with("3.14159", nil)
+    assert(from == 0 and to == 0)
 
     -- position test
-    w, pos = str_starts_with("aaaa", "a")
-    assert(w == "a" and pos == 2)
+    from, to = str_starts_with("aaaa", "a")
+    assert(from == 1 and to == 1)
 
-    w, pos = str_starts_with("aaaa", "a", 1)
-    assert(w == "a" and pos == 2)
+    from, to = str_starts_with("aaaa", "a", 1)
+    assert(from == 1 and to == 1)
 
-    w, pos = str_starts_with("aaaa", "a", 2)
-    assert(w == "a" and pos == 3)
+    from, to = str_starts_with("aaaa", "a", 2)
+    assert(from == 2 and to == 2)
 
-    w, pos = str_starts_with("aaaa", "aa", 2)
-    assert(w == "aa" and pos == 4)
+    from, to = str_starts_with("aaaa", "aa", 2)
+    assert(from == 2 and to == 3)
 
     -- UTF-8 test
-    w, pos = str_starts_with("丧尸暴龙兽", "丧")
-    assert(w == "丧" and pos == 4, "UTF-8 test single character") 
+    from, to = str_starts_with("丧尸暴龙兽", "丧")
+    assert(from == 1 and to == 3)
 
-    w, pos = str_starts_with("丧尸暴龙兽", "暴龙", 7)
-    assert(w == "暴龙" and pos == 13, "UTF-8 test two characters") 
+    from, to = str_starts_with("丧尸暴龙兽", "暴龙", 7)
+    assert(from == 7 and to == 12)
 
     ngx.say("str_starts_with_test success (12/12)")
 end

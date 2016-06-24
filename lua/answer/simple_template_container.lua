@@ -27,30 +27,44 @@ end
 --  @pattern the pattern to compare with
 --  @from the position index to start to compare, default to 1 if not given
 --
---  @return a pair of word and position, if the pattern is matched,
---     the word is the pattern itself and position is the index after the pattern.
---     Otherwise, the returned word is nil and position is 0.
+--  @return a pair of start and ending position of the matched part.
+--     If the pattern is not matched, two 0 will be returned.
 --
 local str_starts_with = function (str, pattern, from)
     if not from then from = 1 end -- if from is missing, start from the beginning
-    if not str or not pattern then return nil, 0 end
+    if not str or not pattern then return 0, 0 end
     local len = #pattern
-    if len == 0 then return nil, 0 end
+    if len == 0 then return 0, 0 end
 
-    local is_matched = true
     for i = from, len do
         if not str:byte(i) or str:byte(i) ~= pattern:byte(i) then
-            is_matched = false
-            break
+            return 0, 0
         end
     end
 
-    -- this tenary operator trick is tested here only and may not work elsewhere
-    local word = (is_matched and pattern or nil)
-    local pos = (is_matched and from + len or 0)
-    
-    return word, pos
-    
+    return from, from + len - 1
+end
+
+-- match type re
+-- Check if the string matches the given regular expression, starting from the given place
+--
+--  @str the input string
+--  @pattern the RE pattern
+--  @from the starting position index
+--
+--  @return a pair of start and ending position of the matched part.
+--     If the pattern is not matched, two 0 will be returned.
+--
+local str_starts_with_re = function (str, pattern, from)
+    local ctx = {pos = from}
+    local from, to, err = ngx.re.find(str, pattern, "ajou", ctx)
+
+    if from then
+        return from, to
+    else
+        return 0, 0
+    end
+
 end
 
 function Container:run (query_repr, question, lng, lat)
