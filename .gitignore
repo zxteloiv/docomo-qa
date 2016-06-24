@@ -54,3 +54,4 @@ nginx
 *.pid
 
 conf/service.conf
+lua/hello.lua
