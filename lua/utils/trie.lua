@@ -54,6 +54,15 @@ end
 -- gmatch
 -- Get an iterator to find all the substrings of the given string that lies in the
 -- trie structure.
+-- 
+--  @str the string to compare with the trie structure
+--  @begin the beginning index of the string
+--
+--  @return return an iterator function of the matched objects.
+--      Each time the iterator is called, the beginning and ending indices of 
+--      the matched substring will be returned.
+--      When no more substring could be found, a pair of (nil, nil) will be returned.
+--
 function M_:gmatch (str, begin)
     if not begin then begin = 1 end
 
