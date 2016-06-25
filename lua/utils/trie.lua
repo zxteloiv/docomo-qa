@@ -20,11 +20,11 @@ function M_:add (key)
 
     local m, err = iter()
     while not err and m do
-        local byte = m[0]
-        if not p[byte] then
-            p[byte] = {}
+        local u_char = m[0]
+        if not p[u_char] then
+            p[u_char] = {}
         end
-        p = p[byte]
+        p = p[u_char]
 
         m, err = iter()
     end
@@ -40,15 +40,41 @@ function M_:get (key)
 
     local m, err = iter()
     while not err and m do
-        local byte = m[0]
+        local u_char = m[0]
 
-        if not p[byte] then return false end
+        if not p[u_char] then return false end
 
-        p = p[byte]
+        p = p[u_char]
         m, err = iter()
     end
 
     return (p.__val and p.__val == 1)
+end
+
+-- gmatch
+-- Get an iterator to find all the substrings of the given string that lies in the
+-- trie structure.
+function M_:gmatch (str, begin)
+    if not begin then begin = 1 end
+
+    local ctx = {pos = begin}
+    local p = self.root
+
+    local function iter()
+        while true do
+            local from, to, err = ngx.re.find(str, ".", "ajou", ctx)
+            if err or not from then return nil, nil end
+
+            local u_char = str:sub(from, to)
+            if not p[u_char] then return nil, nil end
+
+            p = p[u_char]
+
+            if p.__val and p.__val == 1 then return begin, to end 
+        end
+    end
+
+    return iter
 end
 
 return M_
