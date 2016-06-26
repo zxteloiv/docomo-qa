@@ -8,14 +8,14 @@ local conf = {
     units = {
         {
             -- first unit
-            tag = ts.UNIT_TYPE.TEXT,
-            content = "哪里可以"
+            tag = ts.UNIT_TYPE.DICT,
+            content = "place"
         },
 
         {
             -- second unit
-            tag = ts.UNIT_TYPE.TEXT,
-            content = "按摩"
+            tag = ts.UNIT_TYPE.DICT,
+            content = "func"
         },
     },
 
