@@ -11,17 +11,17 @@ local qs = require("./lua/answer/query_schema")
 --  @from the position index to start to compare, default to 1 if not given
 --
 --  @return a pair of start and ending position of the matched part.
---     If the pattern is not matched, two 0 will be returned.
+--     If the pattern is not matched, two nil-s will be returned.
 --
 local str_starts_with = function (str, pattern, from)
     if not from then from = 1 end -- if from is missing, start from the beginning
-    if not str or not pattern then return 0, 0 end
+    if not str or not pattern then return nil, nil end
     local len = #pattern
-    if len == 0 then return 0, 0 end
+    if len == 0 then return nil, nil end
 
     for i = from, len do
         if not str:byte(i) or str:byte(i) ~= pattern:byte(i) then
-            return 0, 0
+            return nil, nil
         end
     end
 
@@ -36,11 +36,11 @@ end
 --  @from the starting position index
 --
 --  @return a pair of start and ending position of the matched part.
---     If the pattern is not matched, two 0 will be returned.
+--     If the pattern is not matched, two nil-s will be returned.
 --
 local str_starts_with_re = function (str, pattern, from)
-    if not str or not pattern then return 0, 0 end
-    if #str == 0 or #pattern == 0 then return 0, 0 end
+    if not str or not pattern then return nil, nil end
+    if #str == 0 or #pattern == 0 then return nil, nil end
 
     local ctx = {pos = from}
     local from, to, err = ngx.re.find(str, pattern, "ajou", ctx)
@@ -48,9 +48,17 @@ local str_starts_with_re = function (str, pattern, from)
     if from then
         return from, to
     else
-        return 0, 0
+        return nil, nil
     end
 
+end
+
+local make_iterator = function (func, ...)
+    local executed = false
+    return function (...)
+        if not executed then return func(...) end
+        return nil, nil
+    end
 end
 
 -- the main container class
@@ -73,7 +81,60 @@ Container.new = function(template)
     return self
 end
 
+Container.make_universal_iter = function(self, question, unit, pos)
+    local iter
+    if unit.tag == ts.UNIT_TYPE.TEXT then
+        iter = make_iterator(str_starts_with, question, unit.content, pos)
+    elseif unit.tag == ts.UNIT_TYPE.RE then
+        iter = make_iterator(str_starts_with_re, question, unit.content, pos)
+    elseif unit.tag == ts.UNIT_TYPE.DICT then
+        trie_index = g_shared_ro[unit.content]
+        assert(trie_index, "the specified trie index doesn't exist")
+        iter = trie_index:gmatch(question, pos)
+    end
+
+    return iter
+end
+
+Container.gmatch = function (self, question, pos)
+    local rule = self.rule
+    local matches = {}
+    local iter_stack = {}
+    local iter = self:make_iterator(question, rule.units[1], pos)
+    table.insert(iter_stack, iter)
+
+    return function () 
+        while #iter_stack > 0 do
+            local iter = iter_stack[#iter_stack]
+            local from, to = iter()
+
+            if not from or not to then
+                table.remove(iter_stack, #iter_stack)
+            else
+                matches[#iter_stack] = {from, to}
+
+                if #iter_stack < #(rule.units) then
+                    local iter = self:make_iterator(question, rule.units[1], to + 1)
+                    table.insert(iter_stack, iter)
+                else
+                    return matches
+                end
+            end
+        end
+
+        return nil
+    end
+end
+
 function Container:run (query_repr, question, lng, lat)
+    local iter = self:gmatch(question, 1)
+
+    local matches = iter()
+
+    if not matches then
+        return false
+    end
+
     return true
 end
 
