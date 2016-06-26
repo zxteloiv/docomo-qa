@@ -3,6 +3,8 @@ local M_ = {}
 local ts = require("./lua/answer/template_schema")
 local qs = require("./lua/answer/query_schema")
 
+local g_shared_ro = require("./lua/init")
+
 -- match type text
 -- Check if the string matches the text pattern, for the best performance
 --
@@ -100,7 +102,7 @@ Container.gmatch = function (self, question, pos)
     local rule = self.rule
     local matches = {}
     local iter_stack = {}
-    local iter = self:make_iterator(question, rule.units[1], pos)
+    local iter = self:make_universal_iter(question, rule.units[1], pos)
     table.insert(iter_stack, iter)
 
     return function () 
@@ -114,7 +116,8 @@ Container.gmatch = function (self, question, pos)
                 matches[#iter_stack] = {from, to}
 
                 if #iter_stack < #(rule.units) then
-                    local iter = self:make_iterator(question, rule.units[1], to + 1)
+                    iter = self:make_universal_iter(question,
+                        rule.units[#iter_stack + 1], to + 1)
                     table.insert(iter_stack, iter)
                 else
                     return matches

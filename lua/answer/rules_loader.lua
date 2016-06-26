@@ -4,8 +4,8 @@ local empty_runner = require("./lua/answer/rules/empty")
 local template_container = require("./lua/answer/simple_template_container").Container
 
 local rule_list = {
-    {empty_runner, nil},
     {template_container, require("./lua/answer/rules/example_template")},
+    {empty_runner, nil},
 }
 
 local function is_container(rule) return (rule[2] ~= nil) end
@@ -25,7 +25,7 @@ function match(query_repr, question, lng, lat)
         local matched = false
         if is_container(rule) then
             local runner = rule[1](rule[2])
-            matched = runner.run(query_repr, question, lng, lat)
+            matched = runner:run(query_repr, question, lng, lat)
         else
             matched = rule[1].match(query_repr, question, lng, lat)
         end
