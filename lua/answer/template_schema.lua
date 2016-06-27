@@ -31,8 +31,7 @@ local UNIT_TYPE = {
 --
 local FILL_TAGS = {
     IP = 0,
-    LNG = 1,
-    LAT = 2,
+    COORDINATES = 1,
 }
 
 -- export symbols
