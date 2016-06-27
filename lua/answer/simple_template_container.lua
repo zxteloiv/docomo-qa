@@ -143,6 +143,7 @@ function Container:run (query_repr, question, lng, lat)
         query_repr.output[1] = {}
     end
 
+    -- process the match units in a rule template
     local units = self.rule.units
     for i, unit in ipairs(units) do
         if unit.input then
@@ -154,6 +155,17 @@ function Container:run (query_repr, question, lng, lat)
         else
         end
     end
+
+    -- process the fill section in a rule template
+    local fills = self.rule.fills
+
+    for _, fill in ipairs(fills) do
+        if fill == ts.FILL_TAGS.COORDINATES then
+            table.insert(query_repr.input_schema, qs.POI_ATTR.COORDINATES)
+            table.insert(query_repr.input_value, {lng, lat})
+        end
+    end
+
 
     return true
 end
