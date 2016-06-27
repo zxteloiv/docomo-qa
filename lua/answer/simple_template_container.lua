@@ -138,6 +138,23 @@ function Container:run (query_repr, question, lng, lat)
         return false
     end
 
+    -- by default, assume the pipeline has only 1 element
+    if not query_repr.output[1] then
+        query_repr.output[1] = {}
+    end
+
+    local units = self.rule.units
+    for i, unit in ipairs(units) do
+        if unit.input then
+            table.insert(query_repr.input_schema, unit.input)
+            local from, to = matches[i][1], matches[i][2]
+            table.insert(query_repr.input_value, question:sub(from, to))
+        elseif unit.output then
+            table.insert(query_repr.output[1], unit.output)
+        else
+        end
+    end
+
     return true
 end
 
