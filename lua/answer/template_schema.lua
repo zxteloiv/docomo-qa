@@ -32,6 +32,11 @@ local UNIT_TYPE = {
 local FILL_TAGS = {
     IP = 0,
     COORDINATES = 1,
+
+    SERVER_TIME = 2,
+
+    CITY_BY_LNGLAT = 3,
+    DISTRICT_BY_LNGLAT = 4,
 }
 
 -- export symbols
