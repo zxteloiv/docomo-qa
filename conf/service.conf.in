@@ -1,2 +1,5 @@
 # HIT LTP Cloud Service api key
 ltp_api_key yourAPIKey
+
+# baidu map api key
+baidu_ak yourAPIKey
