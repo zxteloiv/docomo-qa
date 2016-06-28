@@ -24,7 +24,7 @@ end
 --
 --  @return baidu result table if success, otherwise nil is returned
 --
-local function baidu_geocoding(lng, lat, is_poi_needed)
+local function baidu_reversegeocoding(lng, lat, is_poi_needed)
     -- "http://api.map.baidu.com/geocoder/v2/?location=39.983424,116.322987&output=json&pois=1&ak={yourAPIKey}"
 
     local res = ngx.location.capture('/api/external/wolf_reversegeocoding', {
@@ -77,7 +77,7 @@ end
 
 local rtn = {errno = 0, errmsg = "success", data = {}, src = ""}
 
-local baidu_result = baidu_geocoding(lng, lat, is_poi_needed)
+local baidu_result = baidu_reversegeocoding(lng, lat, is_poi_needed)
 
 if not baidu_result then
     rtn.errno = 1
