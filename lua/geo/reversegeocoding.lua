@@ -23,7 +23,7 @@ end
 --  @lat latitude in bd09ll system
 --
 --  @return baidu result table if success, otherwise nil is returned
---      the table is has following keys
+--      the table has the following keys
 --      * city, the city name of the coordinates
 --      * district, the district in that city
 --      * street, the street of the coordiates
