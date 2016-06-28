@@ -33,4 +33,8 @@ conftool.open = function (conf_name)
     return conf
 end
 
+conftool.load_srv_conf = function ()
+    return conftool.open('./conf/service.conf')
+end
+
 return conftool
