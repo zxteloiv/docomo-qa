@@ -22,7 +22,7 @@ local conf = {
     },
 
     fills = {
-        ts.FILL_TAGS.COORDINATES,
+        ts.FILL_TAGS.CITY_BY_LNGLAT,
     }
 }
 

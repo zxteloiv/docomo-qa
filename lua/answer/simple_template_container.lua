@@ -163,9 +163,10 @@ function Container:run (query_repr, question, lng, lat)
         if fill == ts.FILL_TAGS.COORDINATES then
             table.insert(query_repr.input_schema, qs.POI_ATTR.COORDINATES)
             table.insert(query_repr.input_value, {lng, lat})
+        elseif fill == ts.FILL_TAGS.CITY_BY_LNGLAT then
+            
         end
     end
-
 
     return true
 end
