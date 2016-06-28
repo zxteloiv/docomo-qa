@@ -23,6 +23,16 @@ end
 --  @lat latitude in bd09ll system
 --
 --  @return baidu result table if success, otherwise nil is returned
+--      the table is has following keys
+--      * city, the city name of the coordinates
+--      * district, the district in that city
+--      * street, the street of the coordiates
+--      * pois, a list of poi, where each poi is
+--          * name, the name of the POI
+--          * addr, the addr of the POI
+--          * poi_type, the type of the POI
+--          * lng, the longitude of the POI, in bd09ll
+--          * lat, the latitude of the POI, in bd09ll
 --
 local function baidu_reversegeocoding(lng, lat, is_poi_needed)
     -- "http://api.map.baidu.com/geocoder/v2/?location=39.983424,116.322987&output=json&pois=1&ak={yourAPIKey}"
