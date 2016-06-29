@@ -2,6 +2,7 @@ local M_ = {}
 
 local ts = require("./lua/answer/template_schema")
 local qs = require("./lua/answer/query_schema")
+local json = require("rapidjson")
 
 local g_shared_ro = require("./lua/init")
 
@@ -164,7 +165,22 @@ function Container:run (query_repr, question, lng, lat)
             table.insert(query_repr.input_schema, qs.POI_ATTR.COORDINATES)
             table.insert(query_repr.input_value, {lng, lat})
         elseif fill == ts.FILL_TAGS.CITY_BY_LNGLAT then
-            
+            local res = ngx.location.capture('/api/geo/reversegeocoding', {
+                args = {
+                    lng = lng,
+                    lat = lat,
+                },
+            })
+
+            if res and res.status == 200 and res.body then
+                local geoinfo = json.decode(res.body)
+
+                if geoinfo.errno == 0 and geoinfo.data and geoinfo.data.city then
+                    local city = geoinfo.data.city
+                    table.insert(query_repr.input_schema, qs.POI_ATTR.CITY)
+                    table.insert(query_repr.input_value, city)
+                end
+            end
         end
     end
 
