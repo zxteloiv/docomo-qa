@@ -1,5 +1,6 @@
 local json = require("rapidjson")
 local srv_conf = require("./lua/utils/conftool").load_srv_conf()
+local url = require("./lua/utils/url")
 
 -- input parameters
 local GET = ngx.req.get_uri_args()
@@ -26,8 +27,8 @@ local function baidu_geocoding(city, name)
     local res = ngx.location.capture('/api/external/wolf_geocoding', {
         args = {
             output = "json",
-            address = name,
-            city = city,
+            address = url.encode(name),
+            city = url.encode(city),
             ak = srv_conf.baidu_ak
         },
     })
