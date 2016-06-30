@@ -19,6 +19,8 @@ local POI_ATTR = {
     DISTRICT = 22,
     STREET = 23,
 
+    CLASS = 30,
+
     DESC = 100
 }
 
