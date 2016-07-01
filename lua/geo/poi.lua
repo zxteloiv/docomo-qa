@@ -42,21 +42,12 @@ local search_baidu_place = function ()
     end
 
     -- call baidu service
-    ngx.say(json.encode(args, {pretty = true}))
-    local res = ngx.location.capture('/api/external/wolf_place', {
-        args = args 
-    })
-    if res.status ~= 200 or not res.body then
-        return nil
-    end
+    local res = ngx.location.capture('/api/external/wolf_place', {args = args})
+    if res.status ~= 200 or not res.body then return nil end
 
     local res_table = json.decode(res.body)
-    if not res_table or res_table.status ~= 0 or not res_table.results then
-        return nil
-    end
-
-    ngx.say(json.encode(res_table, {pretty = true}))
-    do return {} end
+    if not res_table then return nil end
+    if res_table.status ~= 0 or not res_table.results then return nil end
 
     local rtn = {}
     for _, poi in ipairs(res_table.results) do
