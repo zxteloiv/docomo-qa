@@ -1,6 +1,5 @@
 local json = require("rapidjson")
 local srv_conf = require("./lua/utils/conftool").load_srv_conf()
-local url = require("./lua/utils/url")
 
 local LOCATION_SEARCH_TYPE = {
     BY_CITY,
@@ -31,11 +30,11 @@ local search_baidu_place = function ()
     }
 
     if name then
-        args.name = name
+        args.query = name
     end
 
     if city then
-        args.region = url.encode(city)
+        args.region = city
         args.city_limit = "true"
     elseif near_lng and near_lat then
         args.location = near_lat .. "," .. near_lng
@@ -43,8 +42,9 @@ local search_baidu_place = function ()
     end
 
     -- call baidu service
+    ngx.say(json.encode(args, {pretty = true}))
     local res = ngx.location.capture('/api/external/wolf_place', {
-        args = args
+        args = args 
     })
     if res.status ~= 200 or not res.body then
         return nil
@@ -54,6 +54,9 @@ local search_baidu_place = function ()
     if not res_table or res_table.status ~= 0 or not res_table.results then
         return nil
     end
+
+    ngx.say(json.encode(res_table, {pretty = true}))
+    do return {} end
 
     local rtn = {}
     for _, poi in ipairs(res_table.results) do
