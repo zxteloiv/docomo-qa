@@ -65,7 +65,7 @@ local search_baidu_place = function ()
             poi_data.url = poi.detail_info.detail_url
         end
 
-        table.insert(rtn, poi)
+        table.insert(rtn, poi_data)
     end
 
     return rtn
