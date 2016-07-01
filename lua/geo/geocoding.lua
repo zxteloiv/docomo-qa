@@ -27,8 +27,8 @@ local function baidu_geocoding(city, name)
     local res = ngx.location.capture('/api/external/wolf_geocoding', {
         args = {
             output = "json",
-            address = url.encode(name),
-            city = url.encode(city),
+            address = name,
+            city = city,
             ak = srv_conf.baidu_ak
         },
     })
