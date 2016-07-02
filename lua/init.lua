@@ -1,6 +1,6 @@
 local dicts = {
-    place = "./assets/poi.example.dict",
-    func = "./assets/location.func.example.dict",
+    place = "./dicts/poi.example.dict",
+    func = "./dicts/location.func.example.dict",
 }
 
 local g_shared_ro = {}
