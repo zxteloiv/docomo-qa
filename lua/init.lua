@@ -11,7 +11,7 @@ local load_dict = function (dict_name)
     local dict_path = dicts[dict_name]
     if not dict_path then ngx.say(dict_name, ' does not exist.') return end
 
-    ngx.say("loading ", dict_name, ' from ', dict_path)
+    -- ngx.say("loading ", dict_name, ' from ', dict_path)
 
     local fp = io.open(dict_path, 'r')
     local t = trie()
