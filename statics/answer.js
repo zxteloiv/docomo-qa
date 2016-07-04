@@ -34,6 +34,7 @@ var handle_submit = function() {
 };
 
 var render_data = function(pois, reprtype) {
+    $("#searchresult").html("")
     for (var idx in pois) {
         var row = $("<div>").addClass("row");
         var name = $("<span>").text(pois[idx].name).addClass("col-md-2");
