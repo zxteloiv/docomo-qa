@@ -58,7 +58,7 @@ local search_baidu_place = function ()
         poi_data.lat = poi.location.lat
         poi_data.src = "baidu"
 
-        if poi.detail == 1 then
+        if poi.detail_info then
             poi_data.rating = poi.detail_info.overall_rating
             poi_data.price = poi.detail_info.price
             poi_data.class = poi.detail_info.tag
