@@ -4,7 +4,7 @@ local ts = require("./lua/answer/template_schema")
 local qs = require("./lua/answer/query_schema")
 local json = require("rapidjson")
 
-local g_shared_ro = require("./lua/init")
+local trie_client = require("./lua/utils/tis_client")
 
 -- match type text
 -- Check if the string matches the text pattern, for the best performance
@@ -91,9 +91,7 @@ Container.make_universal_iter = function(self, question, unit, pos)
     elseif unit.tag == ts.UNIT_TYPE.RE then
         iter = make_iterator(str_starts_with_re, question, unit.content, pos)
     elseif unit.tag == ts.UNIT_TYPE.DICT then
-        trie_index = g_shared_ro[unit.content]
-        assert(trie_index, "the specified trie index doesn't exist")
-        iter = trie_index:gmatch(question, pos)
+        iter = trie_client.make_tis_iter(question, unit.content, pos)
     end
 
     return iter

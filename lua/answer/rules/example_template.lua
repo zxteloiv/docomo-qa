@@ -9,14 +9,14 @@ local conf = {
         {
             -- first unit
             tag = ts.UNIT_TYPE.DICT,
-            content = "place",
+            content = "poi",
             input = qs.POI_ATTR.NAME,
         },
 
         {
             -- second unit
             tag = ts.UNIT_TYPE.DICT,
-            content = "func",
+            content = "location_func",
             output = qs.POI_ATTR.ADDRESS,
         },
     },
