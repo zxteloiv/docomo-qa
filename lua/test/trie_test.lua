@@ -49,7 +49,6 @@ local test_func = function()
     b, e = iter()
     assert(b and e)
 
-    ngx.say(json.encode(t))
     ngx.say("trie_test success (15/15)")
 end
 
