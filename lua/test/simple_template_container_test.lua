@@ -10,16 +10,16 @@ local function str_starts_with_test()
     assert(from == 1 and to == 2)
 
     from, to = str_starts_with("", "abc")
-    assert(from == 0 and to == 0)
+    assert(not from and not to)
 
     from, to = str_starts_with("2.71828", "")
-    assert(from == 0 and to == 0)
+    assert(not from and not to)
 
     from, to = str_starts_with(nil, "abc")
-    assert(from == 0 and to == 0)
+    assert(not from and not to)
 
     from, to = str_starts_with("3.14159", nil)
-    assert(from == 0 and to == 0)
+    assert(not from and not to)
 
     -- position test
     from, to = str_starts_with("aaaa", "a")
@@ -51,16 +51,16 @@ local function str_starts_with_re_test()
     assert(from == 1 and to == 3)
 
     from, to = str_starts_with_re(nil, "abc")
-    assert(from == 0 and to == 0)
+    assert(not from and not to)
 
     from, to = str_starts_with_re("abc", nil)
-    assert(from == 0 and to == 0)
+    assert(not from and not to)
 
     from, to = str_starts_with_re("", "")
-    assert(from == 0 and to == 0)
+    assert(not from and not to)
 
     from, to = str_starts_with_re("abc", "bc", 1)
-    assert(from == 0 and to == 0)
+    assert(not from and not to)
 
     from, to = str_starts_with_re("abc", "bc", 2)
     assert(from == 2 and to == 3)
@@ -70,7 +70,7 @@ local function str_starts_with_re_test()
     assert(from == 4 and to == 12)
 
     from, to = str_starts_with_re("你为什么这么熟练啊", "为什么", 1)
-    assert(from == 0 and to == 0)
+    assert(not from and not to)
 
     ngx.say("str_starts_with_re_test success (8/8)")
 end
