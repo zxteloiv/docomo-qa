@@ -23,6 +23,7 @@ local call_tis = function (question, dict, pos)
     res = json.decode(res.body)
     if not res.errno or not res.errmsg then return nil end
     if res.errno ~= 0 then return nil end
+    if #(res.data) == 0 then return nil end
 
     local arr = {}
     for i, v in ipairs(res.data) do
@@ -40,7 +41,7 @@ local make_tis_iter = function (question, dict, pos)
     local iter_func = function()
         if not arr[p] then return nil, nil end
         p = p + 1
-        return pos, p - 1
+        return pos, arr[p - 1]
     end
 
     return iter_func
