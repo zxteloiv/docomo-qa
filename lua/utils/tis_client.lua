@@ -26,7 +26,7 @@ local call_tis = function (question, dict, pos)
 
     local arr = {}
     for i, v in ipairs(res.data) do
-        table.insert(arr, v + 1)
+        table.insert(arr, v)
     end
 
     return arr
@@ -34,7 +34,7 @@ end
 
 local make_tis_iter = function (question, dict, pos)
     local arr = call_tis(question, dict, pos)
-    if not arr then return function () return nil, nil end
+    if not arr then return function () return nil, nil end end
 
     local p = 1
     local iter_func = function()
