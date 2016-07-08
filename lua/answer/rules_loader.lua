@@ -4,7 +4,7 @@ local empty_runner = require("./lua/answer/rules/empty")
 local template_container = require("./lua/answer/simple_template_container").Container
 
 local rule_list = {
-    {template_container, require("./lua/answer/rules/example_template")},
+    {template_container, require("./lua/answer/rules/loc_poi-func")},
     {empty_runner, nil},
 }
 
