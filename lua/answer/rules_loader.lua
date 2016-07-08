@@ -5,6 +5,7 @@ local template_container = require("./lua/answer/simple_template_container").Con
 
 local rule_list = {
     {template_container, require("./lua/answer/rules/loc_poi-func")},
+    {template_container, require("./lua/answer/rules/loc_poi")},
     {empty_runner, nil},
 }
 
