@@ -31,6 +31,8 @@ var handle_submit = function() {
             console.log(state + ": answer server api error\n" + err)
         }
     });
+
+    return false;
 };
 
 var render_data = function(pois, reprtype) {
@@ -62,7 +64,5 @@ var render_data = function(pois, reprtype) {
 };
 
 +function($){
-    $("#search")
-        .click(handle_submit)
-        ;
+    $("#searchform").submit(handle_submit);
 }(jQuery);
