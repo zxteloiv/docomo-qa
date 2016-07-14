@@ -22,8 +22,9 @@ local str_starts_with = function (str, pattern, from)
     local len = #pattern
     if len == 0 then return nil, nil end
 
-    for i = from, len do
-        if not str:byte(i) or str:byte(i) ~= pattern:byte(i) then
+    for i = 1, len do           -- index on pattern
+        local j = i + from - 1  -- the index on string
+        if not str:byte(j) or str:byte(j) ~= pattern:byte(i) then
             return nil, nil
         end
     end
@@ -56,10 +57,10 @@ local str_starts_with_re = function (str, pattern, from)
 
 end
 
-local make_iterator = function (func, ...)
+local make_iterator = function (func, str, pattern, from)
     local executed = false
-    return function (...)
-        if not executed then return func(...) end
+    return function ()
+        if not executed then executed = true return func(str, pattern, from) end
         return nil, nil
     end
 end

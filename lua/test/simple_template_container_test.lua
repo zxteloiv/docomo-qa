@@ -41,7 +41,10 @@ local function str_starts_with_test()
     from, to = str_starts_with("丧尸暴龙兽", "暴龙", 7)
     assert(from == 7 and to == 12)
 
-    ngx.say("str_starts_with_test success (12/12)")
+    from, to = str_starts_with("附近的那个公园怎么走", "的那个", 7)
+    assert(from == 7 and to == 15)
+
+    ngx.say("str_starts_with_test success (13/13)")
 end
 
 local str_starts_with_re = template_container.str_starts_with_re
