@@ -8,6 +8,7 @@ local rule_list = {
     {template_container, require("./lua/answer/rules/loc_category")},
     {template_container, require("./lua/answer/rules/loc_func-category")},
     {template_container, require("./lua/answer/rules/loc_near-func-category")},
+    {template_container, require("./lua/answer/rules/loc_near-category-func")},
     {template_container, require("./lua/answer/rules/loc_poi-func")},
     {template_container, require("./lua/answer/rules/loc_poi")},
     {template_container, require("./lua/answer/rules/loc_func-poi")},
