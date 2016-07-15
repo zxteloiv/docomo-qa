@@ -42,7 +42,7 @@ var render_data = function(pois, reprtype) {
         var name = $("<span>").text(pois[idx].name).addClass("col-md-2");
         var addr = $("<span>").text(pois[idx].addr).addClass("col-md-3");
         var rating = $("<span>").text(pois[idx].rating).addClass("col-md-1");
-        var phone = $("<span>").text(pois[idx].phone).addClass("col-md-1");
+        var phone = $("<span>").text(pois[idx].phone.replace(',', ', ')).addClass("col-md-1");
         var tag = $("<span>").text(pois[idx].class).addClass("col-md-1");
         var loc = $("<span>")
             .text(pois[idx].lng + "," + pois[idx].lat)
