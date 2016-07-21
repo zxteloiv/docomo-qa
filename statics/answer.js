@@ -44,7 +44,7 @@ var render_data = function(pois, reprtype) {
         var rating = $("<span>").text(pois[idx].rating).addClass("col-md-1");
 
         var phone_str = pois[idx].phone;
-        if (phone_str) { phone_str = phone_str.replace(',', ', '); }
+        if (phone_str) { phone_str = phone_str.replace(/[, \|]/g, '$& '); }
         var phone = $("<span>").text(phone_str).addClass("col-md-1");
 
         var tag = $("<span>").text(pois[idx].class).addClass("col-md-1");
