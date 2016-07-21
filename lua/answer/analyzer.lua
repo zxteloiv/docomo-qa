@@ -14,8 +14,12 @@ local function analyze(question, lng, lat)
     local QueryRepr = query_schema.QueryRepr
     query_repr = QueryRepr.new()
 
-    -- match and modify the query representation for specific rules
-    rules.match(query_repr, question, lng, lat)
+    -- preprocessing
+    question = ngx.re.gsub(question, "[ \t]", '', 'ju')
+    if question then
+        -- match and modify the query representation for specific rules
+        rules.match(query_repr, question, lng, lat)
+    end
 
     return {
         errno = 0,
