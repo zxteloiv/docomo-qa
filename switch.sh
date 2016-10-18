@@ -3,6 +3,8 @@
 ROOT=$(pwd)
 NGINX_BIN=$ROOT/nginx
 
+mkdir -p $ROOT/logs
+
 if [ "$1" == "start" ]; then
     echo root: $ROOT
     echo conf: conf/nginx.conf
