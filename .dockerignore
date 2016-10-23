@@ -56,5 +56,7 @@ nginx
 conf/service.conf
 lua/hello.lua
 hello.lua
-Dockerfile.private
+
+Dockerfile*
+
 
