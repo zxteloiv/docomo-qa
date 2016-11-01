@@ -24,7 +24,8 @@ local MATCH_TYPE = {
 local UNIT_TYPE = {
     TEXT = 0,
     RE = 1,
-    DICT = 2
+    DICT = 2,
+    POS = 3
 }
 
 -- Available tags that can be filled into a request
