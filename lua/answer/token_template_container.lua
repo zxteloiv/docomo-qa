@@ -30,8 +30,7 @@ local function compare_unit_and_term (unit, term)
             return true
         end
     elseif unit.tag == ts.UNIT_TYPE.DICT then
-        local arr = tis_client.call_tis(token, unit.content, 1)
-        if #arr > 0 then
+        if tis_client.call_tis(token, unit.content, 1) then
             return true
         end
     elseif unit.tag == ts.UNIT_TYPE.POS then
@@ -39,8 +38,7 @@ local function compare_unit_and_term (unit, term)
             return true
         end
     elseif unit.tag == ts.UNIT_TYPE.POSDICT then
-        local arr = tis_client.call_tis(pos, unit.content, 1)
-        if #arr > 0 then
+        if tis_client.call_tis(pos, unit.content, 1) then
             return true
         end
     end
