@@ -48,7 +48,7 @@ local function compare_unit_and_term (unit, term)
     return false
 end
 
-Container.gmatch = function (self, question, pos)
+Container.find_match = function (self, question)
     local rule = self.rule
     local terms = call_pos_tagger(question)
     local matches = {}
@@ -62,18 +62,25 @@ Container.gmatch = function (self, question, pos)
             table.insert(matches, term.token)
         else
             -- any mismatch means the template failed to match.
-            -- the returned iterator could just output nil
-            return function return nil end
+            return nil
         end
         
         i = i + 1
     end
 
-    return function()
-        local rtn = matches
-        matches = nil
-        return rtn
-    end
+    return matches
 end
 
+function Container:run (query_repr, question, lng, lat)
+    local match = self:find_match(question)
+    if not match then return false end
+
+    self:set_repr_by_match(query_repr, match, lng, lat)
+    return true
+end
+
+-- export symbols
+M_.Container = Container
+
+return M_
 
