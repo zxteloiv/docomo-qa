@@ -25,7 +25,8 @@ local UNIT_TYPE = {
     TEXT = 0,
     RE = 1,
     DICT = 2,
-    POS = 3
+    POS = 3,
+    POSDICT = 4
 }
 
 -- Available tags that can be filled into a request
