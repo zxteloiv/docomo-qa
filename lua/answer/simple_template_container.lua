@@ -129,15 +129,7 @@ Container.gmatch = function (self, question, pos)
     end
 end
 
-function Container:run (query_repr, question, lng, lat)
-    local iter = self:gmatch(question, 1)
-
-    local matches = iter()
-
-    if not matches then
-        return false
-    end
-
+function Container:set_repr_by_match (query_repr, matches, lng, lat)
     -- by default, assume the pipeline has only 1 element
     if not query_repr.output[1] then
         query_repr.output[1] = {}
@@ -148,8 +140,7 @@ function Container:run (query_repr, question, lng, lat)
     for i, unit in ipairs(units) do
         if unit.input then
             table.insert(query_repr.input_schema, unit.input)
-            local from, to = matches[i][1], matches[i][2]
-            table.insert(query_repr.input_value, question:sub(from, to))
+            table.insert(query_repr.input_value, matches[i])
         elseif unit.output then
             table.insert(query_repr.output[1], unit.output)
         else
@@ -182,7 +173,21 @@ function Container:run (query_repr, question, lng, lat)
             end
         end
     end
+end
 
+function Container:run (query_repr, question, lng, lat)
+    local iter = self:gmatch(question, 1)
+
+    -- matches refinement
+    local matches = iter()
+    if not matches then return false end
+    for i, val in ipairs(matches) do
+        local from, to = matches[i][1], matches[i][2]
+        matches[i] = question:sub(from, to)
+    end
+
+    -- match completed, set the representation
+    self:set_repr_by_match(query_repr, matches, lng, lat)
     return true
 end
 
