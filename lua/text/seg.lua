@@ -9,6 +9,7 @@ if POST.q then
         '/api/external/jieba',
         {
             method = ngx.HTTP_POST,
+            args = { method = "HMM", format = "simple" },
             body = query
         }
     )
