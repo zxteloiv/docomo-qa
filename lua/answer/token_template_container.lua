@@ -4,9 +4,9 @@ local ts = require("./lua/answer/template_schema")
 local qs = require("./lua/answer/query_schema")
 local json = require("rapidjson")
 
-local trie_client = require("./lua/utils/tis_client")
+local tis_client = require("./lua/utils/tis_client")
 
-local template_container = require("./lua/answer/simple_template_container").Container
+local Container = require("./lua/answer/simple_template_container").Container
 
 local function call_pos_tagger (question)
     local res = ngx.location.capture('/api/text/pos', {
@@ -79,6 +79,8 @@ end
 
 -- export symbols
 M_.Container = Container
+M_.call_pos_tagger = call_pos_tagger
+M_.compare_unit_and_term = compare_unit_and_term
 
 return M_
 
