@@ -46,6 +46,24 @@ local function compare_unit_and_term_test()
     ngx.say('compare_unit_and_term_test success (15/15)')
 end
 
+local function container_gmatch_test()
+    local template = { units = {
+        { tag = ts.UNIT_TYPE.DICT, content = "nearby" },
+        { tag = ts.UNIT_TYPE.TEXT, content = "哪里" },
+        { tag = ts.UNIT_TYPE.RE, content = "有|能找到" },
+        { tag = ts.UNIT_TYPE.POS, content = "n" },
+    }}
+
+    local runner = template_container(template)
+    local matches = runner.gmatch("附近哪里有拉面")
+    assert(matches)
+    local matches = runner.gmatch("附近哪里有按摩")
+    assert(matches)
+
+    ngx.say('container_gmatch_test success (2/2)')
+
+end
+
 local test_func = function()
     compare_unit_and_term_test()
 end
