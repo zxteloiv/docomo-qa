@@ -14,7 +14,7 @@ local function call_pos_tagger (question)
         body = ngx.encode_args({q = question})
     })
     if not res or res.status ~= 200 then return nil end
-    local res = json.decode(res)
+    local res = json.decode(res.body)
     if not res or res.errno ~= 0 then return nil end
 
     return res.data
@@ -37,8 +37,8 @@ local function compare_unit_and_term (unit, term)
         if unit.content == pos then
             return true
         end
-    elseif unit.tag == ts.UNIT_TYPE.POSDICT then
-        if tis_client.call_tis(pos, unit.content, 1) then
+    elseif unit.tag == ts.UNIT_TYPE.POS_RE then
+        if ngx.re.match(pos, unit.content, "ajou") then
             return true
         end
     end
@@ -53,7 +53,7 @@ Container.find_match = function (self, question)
 
     local i = 1;
 
-    for _, term in ipairs(tokens) do
+    for _, term in ipairs(terms) do
         local unit = rule.units[i]
 
         if compare_unit_and_term(unit, term) then
