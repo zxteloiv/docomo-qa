@@ -59,6 +59,8 @@ local function container_find_match_test()
     local runner = Container(template)
     local matches = runner:find_match("附近哪里有拉面")
     assert(matches)
+
+    -- '按摩' has POS "v", thus should not be matched
     local matches = runner:find_match("附近哪里有按摩")
     assert(not matches)
 
@@ -66,7 +68,7 @@ local function container_find_match_test()
     local matches = runner:find_match("附近哪里有按摩")
     assert(matches)
 
-    ngx.say('container_gmatch_test success (2/2)')
+    ngx.say('container_gmatch_test success (3/3)')
 
 end
 

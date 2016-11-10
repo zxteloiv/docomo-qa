@@ -13,6 +13,7 @@ local rule_list = {
     {template_container, require("./lua/answer/rules/loc_poi")},
     {template_container, require("./lua/answer/rules/loc_func-poi")},
     {template_container, require("./lua/answer/rules/loc_near-func-poi")},
+    {template_container, require("./lua/answer/rules/loc-en_func-poi")},
     {empty_runner, nil},
 }
 
