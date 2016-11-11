@@ -15,7 +15,8 @@ local function analyze(question, lng, lat)
     query_repr = QueryRepr.new()
 
     -- preprocessing
-    question = ngx.re.gsub(question, "[ \t]", '', 'ju')
+    question = ngx.re.gsub(question, "([A-Za-z])[ \t]+([^A-Za-z])", '$1$2', 'ju')
+    question = ngx.re.gsub(question, "([^A-Za-z])[ \t]+([A-Za-z])", '$1$2', 'ju')
     if question then
         -- match and modify the query representation for specific rules
         rules.match(query_repr, question, lng, lat)
