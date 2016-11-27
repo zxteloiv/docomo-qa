@@ -24,6 +24,13 @@ local POI_ATTR = {
     DESC = 100
 }
 
+-- define the searching index
+--
+local DOWNSTREAM = {
+    BAIDU_MAP = 0,
+    DOCOMO = 1,
+}
+
 -- question representation class
 --
 local QueryRepr = {}
@@ -41,6 +48,9 @@ QueryRepr.new = function()
         -- a simple mechanism to indicate whether a question as a whole contains
         -- sentiment, a value with larger integer means more sentiment
         sentiment = 0,
+
+        -- default to use BaiduMap (0), but will be overwritten later in template
+        downstream = DOWNSTREAM.BAIDU_MAP,
     }
     setmetatable(self, QueryRepr)
     return self
@@ -68,5 +78,6 @@ end
 M_.QueryRepr = QueryRepr
 M_.QTYPE = QTYPE
 M_.POI_ATTR = POI_ATTR
+M_.DOWNSTREAM = DOWNSTREAM
 
 return M_

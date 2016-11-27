@@ -102,16 +102,32 @@ Container.gmatch = function (self, question, pos)
     local rule = self.rule
     local matches = {}
     local iter_stack = {}
+    local iter_start_pos = {}
     local iter = self:make_universal_iter(question, rule.units[1], pos)
     table.insert(iter_stack, iter)
+    table.insert(iter_start_pos, pos)
 
     return function () 
         while #iter_stack > 0 do
+            -- get the tail iterator and retrieve next match
             local iter = iter_stack[#iter_stack]
             local from, to = iter()
 
             if not from or not to then
+                -- the last iterator cannot match anything further
                 table.remove(iter_stack, #iter_stack)
+                local pos = iter_start_pos[#iter_start_pos]
+                if not pos then break end -- first iter is removed
+                table.remove(iter_start_pos, #iter_start_pos)
+
+                -- for fuzzy match only, the poped-out iterator could be explored
+                -- one more characher on the right
+                if rule.match_type == ts.MATCH_TYPE.FUZZY and pos < #question then
+                    iter = self:make_universal_iter(question,
+                        rule.units[#iter_stack + 1], pos + 1)
+                    table.insert(iter_stack, iter)
+                    table.insert(iter_start_pos, pos + 1)
+                end
             else
                 matches[#iter_stack] = {from, to}
 
@@ -119,6 +135,7 @@ Container.gmatch = function (self, question, pos)
                     iter = self:make_universal_iter(question,
                         rule.units[#iter_stack + 1], to + 1)
                     table.insert(iter_stack, iter)
+                    table.insert(iter_start_pos, to + 1)
                 else
                     return matches
                 end
@@ -173,14 +190,27 @@ function Container:set_repr_by_match (query_repr, matches, lng, lat)
             end
         end
     end
+
+    -- specify the downstream if any
+    if self.rule.downstream then
+        query_repr.downstream = self.rule.downstream
+    else
+        query_repr.downstream = qs.DOWNSTREAM.BAIDU_MAP
+    end
 end
 
 function Container:run (query_repr, question, lng, lat)
     local iter = self:gmatch(question, 1)
 
-    -- matches refinement
-    local matches = iter()
+    -- find the last match (usually longest)
+    local matches = nil
+    repeat
+        next_match = iter()
+        if next_match then matches = next_match end
+    until (not next_match)
     if not matches then return false end
+
+    -- matches refinement
     for i, val in ipairs(matches) do
         local from, to = matches[i][1], matches[i][2]
         matches[i] = question:sub(from, to)
