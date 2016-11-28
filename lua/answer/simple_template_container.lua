@@ -199,18 +199,39 @@ function Container:set_repr_by_match (query_repr, matches, lng, lat)
     end
 end
 
+function Container:choose_matches(iter, question, lng, lat)
+    -- find the match that covers the most words in question
+    local matches = nil
+    local max_cover = 0
+    while true do 
+        local next_match = iter()
+        if not next_match then break end
+
+        -- debug: ngx.say(json.encode(next_match))
+
+        local cover = 0
+        for i, val in ipairs(next_match) do
+            local from, to = next_match[i][1], next_match[i][2]
+            -- debug: ngx.say(from, " ", to, ": ", question:sub(from, to))
+            cover = cover + (to - from + 1)
+        end
+        if cover > max_cover then
+            matches = next_match
+            max_cover = cover
+        end
+    end
+
+    return matches
+end
+
 function Container:run (query_repr, question, lng, lat)
     local iter = self:gmatch(question, 1)
 
-    -- find the last match (usually longest)
-    local matches = nil
-    repeat
-        next_match = iter()
-        if next_match then matches = next_match end
-    until (not next_match)
+    local matches = self:choose_matches(iter, question, lng, lat)
     if not matches then return false end
 
-    -- matches refinement
+    -- matches refinement,
+    -- change matches structure from index pair to the matched strings themselves
     for i, val in ipairs(matches) do
         local from, to = matches[i][1], matches[i][2]
         matches[i] = question:sub(from, to)
