@@ -21,6 +21,8 @@ local POI_ATTR = {
 
     CLASS = 30,
 
+    TAG = 40,
+
     DESC = 100
 }
 
