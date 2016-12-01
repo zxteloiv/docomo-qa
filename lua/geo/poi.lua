@@ -1,6 +1,7 @@
 local json = require("rapidjson")
 
-local search_baidu_place = require("./lua.geo/searcher/baidu").search_baidu_place
+local search_baidu_place = require("./lua/geo/searcher/baidu").search_baidu_place
+local solr = require("./lua/geo/searcher/solr")
 
 local LOCATION_SEARCH_TYPE = {
     BY_CITY,
@@ -45,7 +46,8 @@ if downstream == "baidu" then
 
 elseif downstream == "solr" then
 
-    ngx.say(json.encode({errno = 0, errmsg = "empty"}))
+    local solr_result = solr.search_predicate_by_id(GET.tag)
+    ngx.say(json.encode({errno = 0, errmsg = "empty", data = solr_result}))
 
 else
     -- no other type of downstream any more
