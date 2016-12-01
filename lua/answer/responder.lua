@@ -23,6 +23,8 @@ local function answer(analysis, lng, lat)
             args.near_lat = val[2]
         elseif schema == qs.POI_ATTR.CITY then
             args.city = val
+        elseif schema == qs.POI_ATTR.TAG then
+            args.tag = val
         end
     end
 

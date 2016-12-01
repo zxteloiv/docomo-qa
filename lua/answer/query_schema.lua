@@ -21,6 +21,7 @@ local POI_ATTR = {
 
     CLASS = 30,
 
+    -- the tags could be anything that describes the entity
     TAG = 40,
 
     DESC = 100
