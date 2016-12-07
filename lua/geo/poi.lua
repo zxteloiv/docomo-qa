@@ -46,7 +46,7 @@ if downstream == "baidu" then
 
 elseif downstream == "solr" then
 
-    local solr_result = solr.search_predicate_by_id(GET.tag)
+    local solr_result = solr.search(args)
     ngx.say(json.encode({errno = 0, errmsg = "empty", data = solr_result}))
 
 else
