@@ -4,16 +4,19 @@ local empty_runner = require("./lua/answer/rules/empty")
 local template_container = require("./lua/answer/simple_template_container").Container
 
 local rule_list = {
+    {template_container, require("./lua/answer/rules/loc-en-fuzzy_func-text")},
     {template_container, require("./lua/answer/rules/loc_category-func")},
     {template_container, require("./lua/answer/rules/loc_category")},
     {template_container, require("./lua/answer/rules/loc_func-category")},
     {template_container, require("./lua/answer/rules/loc_near-func-category")},
     {template_container, require("./lua/answer/rules/loc_near-category-func")},
     {template_container, require("./lua/answer/rules/loc_poi-func")},
-    {template_container, require("./lua/answer/rules/loc_poi")},
     {template_container, require("./lua/answer/rules/loc_func-poi")},
     {template_container, require("./lua/answer/rules/loc_near-func-poi")},
     {template_container, require("./lua/answer/rules/loc-en_func-poi")},
+    {template_container, require("./lua/answer/rules/loc-fuzzy_poi-func")},
+    {template_container, require("./lua/answer/rules/loc_poi-func-2")},
+    {template_container, require("./lua/answer/rules/loc_poi")},
     {empty_runner, nil},
 }
 
