@@ -24,6 +24,8 @@ end
 --
 query_analysis = analyzer.analyze(POST.q, lng, lat)
 
+--ngx.say(json.encode(query_analysis)) -- debug
+
 answer = responder.answer(query_analysis, lng, lat)
 
 ngx.say(json.encode(answer))
