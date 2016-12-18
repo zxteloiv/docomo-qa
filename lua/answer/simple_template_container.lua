@@ -201,27 +201,27 @@ end
 
 function Container:choose_matches(iter, question, lng, lat)
     -- find the match that covers the most words in question
-    local matches = nil
+    local best_match = nil
     local max_cover = 0
     while true do 
         local next_match = iter()
         if not next_match then break end
 
-        -- debug: ngx.say(json.encode(next_match))
-
         local cover = 0
         for i, val in ipairs(next_match) do
             local from, to = next_match[i][1], next_match[i][2]
-            -- debug: ngx.say(from, " ", to, ": ", question:sub(from, to))
+            -- ngx.say(from, " ", to, ": ", question:sub(from, to)) -- debug
             cover = cover + (to - from + 1)
         end
+        -- ngx.say(cover, "\t", max_cover) -- debug
         if cover > max_cover then
-            matches = next_match
+            best_match = json.decode(json.encode(next_match)) -- dirty deepcopy
             max_cover = cover
         end
     end
 
-    return matches
+    -- ngx.say("====> return " .. json.encode(best_match)) -- debug
+    return best_match
 end
 
 function Container:run (query_repr, question, lng, lat)
