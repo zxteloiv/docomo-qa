@@ -14,6 +14,7 @@ local function answer(analysis, lng, lat)
     local query_repr = analysis.query_repr
 
     local args = {}
+    -- input type and values
     for i, schema in ipairs(query_repr.input_schema) do
         local val = query_repr.input_value[i]
         if schema == qs.POI_ATTR.NAME then
@@ -27,6 +28,16 @@ local function answer(analysis, lng, lat)
             args.tag = val
         end
     end
+
+    -- downstream type
+    if query_repr.downstream == qs.DOWNSTREAM.BAIDU_MAP then
+        args.downstream = "baidu"
+    elseif query_repr.downstream == qs.DOWNSTREAM.DOCOMO then
+        args.downstream = "solr"
+    else
+        -- not specifying will be defaulted to baidu later in poi API
+    end
+
 
     local res = ngx.location.capture('/api/geo/poi', { args = args })
 

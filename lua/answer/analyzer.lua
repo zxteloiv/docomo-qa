@@ -29,7 +29,6 @@ local function analyze(question, lng, lat)
         pos = {},
         parse = {},
         depparse = {},
-        downstream = query_schema.DOWNSTREAM.BAIDU_MAP
     }
 end
 
