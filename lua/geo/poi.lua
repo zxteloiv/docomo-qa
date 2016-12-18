@@ -47,7 +47,7 @@ if downstream == "baidu" then
 elseif downstream == "solr" then
 
     local solr_result = solr.search(args)
-    ngx.say(json.encode({errno = 0, errmsg = "empty", data = solr_result}))
+    ngx.say(json.encode({errno = 0, errmsg = "success", data = solr_result}))
 
 else
     -- no other type of downstream any more

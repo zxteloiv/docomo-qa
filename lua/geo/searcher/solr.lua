@@ -119,7 +119,6 @@ local search_by_name = function (name, docset)
 end
 
 local search = function (args)
-    local rtn = {errno = 1, errmsg = "nothing retrieved", data = {}, reprtype = {}}
     local docset = {}
     if args.tag then
         search_by_tag(args.tag, docset)
@@ -134,7 +133,10 @@ local search = function (args)
         local res = mongo.search_baidu_by_name(ent.zh)
         if not res then break end
 
-        docset[i].baidu = res[1]
+        --docset[i].baidu = res[1]
+        for k, v in pairs(res[1]) do
+            docset[i][k] = v
+        end
 
     until true end
 
