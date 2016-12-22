@@ -23,9 +23,11 @@ if GET.near_lng and GET.near_lat and not radius then
 end
 
 local args = {
-    name = GET.name, city = GET.city, tag = GET.tag,
+    name = GET.name, city = GET.city, tag = GET.tag, func = GET.func,
     near_lng = GET.near_lng, near_lat = GET.near_lat, radius = raidus
 }
+
+-- ngx.say(json.encode(args)) -- debug
 
 -- do the search job
 

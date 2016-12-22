@@ -26,6 +26,8 @@ local function answer(analysis, lng, lat)
             args.city = val
         elseif schema == qs.POI_ATTR.TAG then
             args.tag = val
+        elseif schema == qs.POI_ATTR.GENERAL then
+            args.func = val
         end
     end
 

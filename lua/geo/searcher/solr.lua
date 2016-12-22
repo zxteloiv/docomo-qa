@@ -118,6 +118,38 @@ local search_by_name = function (name, docset)
     end
 end
 
+local function search_over_predicate(docset, func)
+    local primitives = mongo.search_primitive_predicate(func)
+    if not primitives then
+        primitives = {func}
+    else
+        table.insert(primitives, func)
+    end
+    -- ngx.say("primitives: " .. json.encode(primitives)) -- debug
+
+    for i, doc in ipairs(docset) do repeat
+        local ent_id = doc.ent_id
+        if not ent_id then break end
+
+        -- find all triple of the entity and search for the predicate word
+        local res = search_predicate_by_id(ent_id)
+        if not res then break end
+        local value = nil
+        for _, triple in ipairs(res) do for _, word in ipairs(primitives) do
+            if string.lower(triple.relation) == string.lower(word) then
+                value = triple.value
+                break
+            end
+        end end
+
+        if value then
+            -- ngx.say("heeeeerrrre for " .. func .. ': ' .. value) -- debug
+            docset[i].general_func = func
+            docset[i].general_val = value
+        end
+    until true end
+end
+
 local search = function (args)
     local docset = {}
     if args.tag then
@@ -139,6 +171,11 @@ local search = function (args)
         end
 
     until true end
+
+    -- if user used a special function word in request
+    if args.func then
+        search_over_predicate(docset, args.func)
+    end
 
     return docset
 
