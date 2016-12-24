@@ -8,14 +8,14 @@ local conf = {
     units = {
         {
             -- first unit
-            tag = ts.UNIT_TYPE.DICT,
-            content = "poi",
+            tag = ts.UNIT_TYPE.RE,
+            content = "[^的]+",
             input = qs.POI_ATTR.NAME,
         },
 
         {
             tag = ts.UNIT_TYPE.RE,
-            content = "的?",
+            content = "的",
         },
 
         {
@@ -23,6 +23,7 @@ local conf = {
             tag = ts.UNIT_TYPE.RE,
             content = "[^是]+",
             output = qs.POI_ATTR.GENERAL,
+            input = qs.POI_ATTR.GENERAL,
         },
 
         {

@@ -158,9 +158,9 @@ function Container:set_repr_by_match (query_repr, matches, lng, lat)
         if unit.input then
             table.insert(query_repr.input_schema, unit.input)
             table.insert(query_repr.input_value, matches[i])
-        elseif unit.output then
+        end
+        if unit.output then
             table.insert(query_repr.output[1], unit.output)
-        else
         end
     end
 

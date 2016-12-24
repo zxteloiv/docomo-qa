@@ -18,6 +18,7 @@ local conf = {
             tag = ts.UNIT_TYPE.DICT,
             content = "general_func",
             output = qs.POI_ATTR.GENERAL,
+            input = qs.POI_ATTR.GENERAL,
         },
     },
 
