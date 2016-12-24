@@ -3,22 +3,19 @@ local M_ = {}
 local empty_runner = require("./lua/answer/rules/empty")
 local template_container = require("./lua/answer/simple_template_container").Container
 
+local rule_list_debug = {
+    -- test
+    {template_container, require("./lua/answer/rules/en_poi-predicate")},
+}
+
 local rule_list = {
-    -- search on solr
-    -- where is 紫禁城 .{3,}
-    {template_container, require("./lua/answer/rules/loc-en-fuzzy_func-text")},
-    -- ... 有哪些 ... 5A级景区 ...
-    {template_container, require("./lua/answer/rules/loc-en-fuzzy_func-tag")},
-    -- ... 国家图书馆 ... 创建时间 ...
-    {template_container, require("./lua/answer/rules/poi-generalFunc")},
+    -- exact search on solr
     -- 国家图书馆 的 创建时间 是
-    {template_container, require("./lua/answer/rules/loc-fuzzy_poi-func")},
+    {template_container, require("./lua/answer/rules/poi-generalFunc")},
     -- what is the creating time of sth.
     {template_container, require("./lua/answer/rules/en_poi-predicate")},
 
-
-
-    -- exact search on baidumap
+    -- search on baidumap
     -- 酒店 怎么走
     {template_container, require("./lua/answer/rules/loc_category-func")},
     -- 公园
@@ -39,6 +36,14 @@ local rule_list = {
     {template_container, require("./lua/answer/rules/loc-en-fuzzy_func-poi")},
     -- 回龙观
     {template_container, require("./lua/answer/rules/loc_poi")},
+
+    -- general search on solr
+    -- where is 紫禁城 .{3,}
+    {template_container, require("./lua/answer/rules/loc-en-fuzzy_func-text")},
+    -- ... 有哪些 ... 5A级景区 ...
+    {template_container, require("./lua/answer/rules/loc-en-fuzzy_func-tag")},
+    -- ... 国家图书馆 ... 创建时间 ...
+    {template_container, require("./lua/answer/rules/loc-fuzzy_poi-func")},
 
     {empty_runner, nil},
 }

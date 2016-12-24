@@ -10,7 +10,6 @@ local conf = {
             -- first unit
             tag = ts.UNIT_TYPE.RE,
             content = "(who|when|what) *(is|are)",
-            input = qs.POI_ATTR.NAME,
         },
 
         {
