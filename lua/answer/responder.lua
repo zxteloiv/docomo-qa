@@ -55,8 +55,10 @@ local function answer(analysis, lng, lat)
         return {errno = 3, errmsg = "nil data returned"}
     end
 
-    local rtn = { errno = 0, errmsg = '', data = {}, reprtype = {} }
+    local rtn = { errno = 0, errmsg = '', data = {} }
     rtn.data = res.data
+    rtn.query_repr = analysis.query_repr
+    rtn.downstream_args = args
 
     return rtn
 end
