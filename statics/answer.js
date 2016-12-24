@@ -15,7 +15,7 @@ var handle_submit = function() {
         },
         success: function(data, state, jqXHR) {
             if (!data || !('errno' in data) || !('errmsg' in data) ||
-                    !('data' in data) || !('reprtype' in data)) {
+                    !('data' in data)) {
                 console.log("returned data is not valid.");
                 return;
             }
@@ -38,22 +38,53 @@ var handle_submit = function() {
 var render_data = function(pois, reprtype) {
     $("#searchresult").html("")
     for (var idx in pois) {
+        var poi = pois[idx];
+
         var row = $("<div>").addClass("row");
-        var name = $("<span>").text(pois[idx].name).addClass("col-md-2");
-        var addr = $("<span>").text(pois[idx].addr).addClass("col-md-3");
-        var rating = $("<span>").text(pois[idx].rating).addClass("col-md-1");
 
-        var phone_str = pois[idx].phone;
-        if (phone_str) { phone_str = phone_str.replace(/[, \|]/g, '$& '); }
-        var phone = $("<span>").text(phone_str).addClass("col-md-1");
+        var name = $("<div>").addClass("col-md-2");
+        var zh_name = $("<span>");
+        if (poi.name) { zh_name.text(poi.name); }
+        else if (poi.zh) { zh_name.text(poi.zh); }
+        var en_name = $("<span>");
+        if (poi.en) { en_name.text(poi.en); }
+        var ja_name = $("<span>");
+        if (poi.ja) { ja_name.text(poi.ja); }
+        name.append(zh_name);
+        name.append('<br>').append(en_name);
+        name.append('<br>').append(ja_name);
 
-        var tag = $("<span>").text(pois[idx].class).addClass("col-md-1");
-        var loc = $("<span>")
-            .text(pois[idx].lng + "," + pois[idx].lat)
-            .addClass("col-md-2");
-        var more = $("<span>").addClass("col-md-1")
-            .append($("<a>").attr("href", pois[idx].url)
-                    .attr("target", "_blank").text("more"));
+        var addr = $("<span>").addClass("col-md-3");
+        if (poi.addr) {
+            addr.text(poi.addr);
+        }
+
+        var rating = $("<span>").addClass("col-md-1");
+        if (poi.rating) {
+            rating.text(poi.rating);
+        }
+
+        var phone = $("<span>").addClass("col-md-1");
+        if (poi.phone) {
+            phone_str = poi.phone.replace(/[, \|]/g, '$& ');
+            phone.text(phone_str)
+        }
+
+        var tag = $("<span>").addClass("col-md-1");
+        if (poi.class) {
+            tag.text(poi.class)
+        }
+
+        var loc = $("<span>").addClass("col-md-2");
+        if (poi.lng && poi.lat) {
+            loc.text(poi.lng + "," + pois[idx].lat)
+        }
+
+        var more = $("<span>").addClass("col-md-1");
+        if (poi.url) {
+            more.append($("<a>").attr("href", poi.url)
+                .attr("target", "_blank").text("more"));
+        }
 
         row.append(name);
         row.append(addr);
@@ -64,6 +95,17 @@ var render_data = function(pois, reprtype) {
         row.append(more);
 
         $("#searchresult").append(row);
+
+        if (poi.general_val && poi.general_func) {
+            $("#searchresult").append(
+                $("<div>").addClass("row").append(
+                    $("<span>").addClass("col-md-12")
+                    .text(poi.general_func + ": " + poi.general_val)
+                    )
+                )
+        }
+
+        $("#searchresult").append("<hr>");
     }
 };
 
