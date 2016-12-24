@@ -4,18 +4,42 @@ local empty_runner = require("./lua/answer/rules/empty")
 local template_container = require("./lua/answer/simple_template_container").Container
 
 local rule_list = {
+    -- search on solr
+    -- where is 紫禁城 .{3,}
     {template_container, require("./lua/answer/rules/loc-en-fuzzy_func-text")},
-    {template_container, require("./lua/answer/rules/loc_poi-func-2")},
+    -- ... 有哪些 ... 5A级景区 ...
+    {template_container, require("./lua/answer/rules/loc-en-fuzzy_func-tag")},
+    -- ... 国家图书馆 ... 创建时间 ...
+    {template_container, require("./lua/answer/rules/poi-generalFunc")},
+    -- 国家图书馆 的 创建时间 是
     {template_container, require("./lua/answer/rules/loc-fuzzy_poi-func")},
+    -- what is the creating time of sth.
+    {template_container, require("./lua/answer/rules/en_poi-predicate")},
+
+
+
+    -- exact search on baidumap
+    -- 酒店 怎么走
     {template_container, require("./lua/answer/rules/loc_category-func")},
+    -- 公园
     {template_container, require("./lua/answer/rules/loc_category")},
+    -- 哪里有 酒店
     {template_container, require("./lua/answer/rules/loc_func-category")},
+    -- 附近 哪里有 公园
     {template_container, require("./lua/answer/rules/loc_near-func-category")},
+    -- 附近 的 公园 怎么走
     {template_container, require("./lua/answer/rules/loc_near-category-func")},
+    -- 附近 哪里有 兰州拉面
     {template_container, require("./lua/answer/rules/loc_near-func-poi")},
+    -- 景山公园 在哪里
     {template_container, require("./lua/answer/rules/loc_poi-func")},
+    -- 怎么去 景山公园
     {template_container, require("./lua/answer/rules/loc_func-poi")},
+    -- ... 怎么去 ... 国家博物馆 ...
+    {template_container, require("./lua/answer/rules/loc-en-fuzzy_func-poi")},
+    -- 回龙观
     {template_container, require("./lua/answer/rules/loc_poi")},
+
     {empty_runner, nil},
 }
 
