@@ -5,7 +5,6 @@ local template_container = require("./lua/answer/simple_template_container").Con
 
 local rule_list = {
     {template_container, require("./lua/answer/rules/loc-en-fuzzy_func-text")},
-    {template_container, require("./lua/answer/rules/loc-en_func-poi")},
     {template_container, require("./lua/answer/rules/loc_poi-func-2")},
     {template_container, require("./lua/answer/rules/loc-fuzzy_poi-func")},
     {template_container, require("./lua/answer/rules/loc_category-func")},

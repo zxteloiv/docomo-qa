@@ -14,7 +14,7 @@ local conf = {
         {
             tag = ts.UNIT_TYPE.RE,
             content = ".{3,}",
-            input = qs.POI_ATTR.TAG, -- only supported in docomo search
+            input = qs.POI_ATTR.NAME, -- only supported in docomo search
         }
     },
 
