@@ -12,7 +12,7 @@ local query_schema = require("./lua/answer/query_schema")
 --
 local function analyze(question, lng, lat)
     local QueryRepr = query_schema.QueryRepr
-    query_repr = QueryRepr.new()
+    local query_repr = QueryRepr.new()
 
     -- preprocessing
     question = ngx.re.gsub(question, "([A-Za-z])[ \t]+([^A-Za-z])", '$1$2', 'ju')
