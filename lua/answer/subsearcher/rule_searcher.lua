@@ -37,7 +37,7 @@ local function match_with_template(tpl, question, lng, lat)
 
         local rtn = { errno = 0, errmsg = "template processed" }
         rtn.matched = matched
-        rtn.repr = query_repr
+        rtn.query_repr = query_repr
 
         return rtn
     end
@@ -58,14 +58,14 @@ end
 --
 local function match_with_func(func, question, lng, lat)
     if not func or not pcall(function() require(RULE_PATH .. func) end) then
-        return {errno = 2, errmsg = "specified template not found", repr = nil}
+        return {errno = 2, errmsg = "specified function not found", repr = nil}
     else
         local func_exe = require(RULE_PATH .. func)
         local query_repr = query_schema.QueryRepr.new()
         local matched = func_exe.match(query_repr, question, lng, lat)
         local rtn = { errno = 0, errmsg = "func processed" }
         rtn.matched = matched
-        rtn.repr = query_repr
+        rtn.query_repr = query_repr
 
         return rtn
     end
@@ -134,11 +134,24 @@ end
 
 local function main(GET)
     local rtn = {}
+    if not GET.q then ngx.say(json.encode({errno=3, errmsg="no given question"})) end
+
+    -- preprocessing
+    --
+    local q = ngx.re.gsub(GET.q, "([A-Za-z])[ \t]+([^A-Za-z])", '$1$2', 'ju')
+    q = ngx.re.gsub(q, "([^A-Za-z])[ \t]+([A-Za-z])", '$1$2', 'ju')
+
+    -- query analysis
+    --
     if GET.req_type == "tpl" then
-        rtn = match_with_template(GET.tpl, GET.q, GET.lng, GET.lat)
+        rtn = match_with_template(GET.tpl, q, GET.lng, GET.lat)
     else
-        rtn = match_with_func(GET.func, GET.q, GET.lng, GET.lat)
+        rtn = match_with_func(GET.func, q, GET.lng, GET.lat)
     end
+
+    -- responder
+    --
+    answer = responder.answer(query_analysis, lng, lat)
 
     ngx.say(json.encode(rtn))
 end
