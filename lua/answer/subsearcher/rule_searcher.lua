@@ -79,7 +79,7 @@ end
 --
 --  @return an answer dict
 --
-local function answer(analysis, lng, lat)
+local function respond(analysis, lng, lat)
     local query_repr = analysis.query_repr
 
     local args = {}
@@ -151,7 +151,7 @@ local function main(GET)
 
     -- responder
     --
-    answer = responder.answer(query_analysis, lng, lat)
+    local answer = respond(query_analysis, lng, lat)
 
     ngx.say(json.encode(rtn))
 end
