@@ -86,24 +86,24 @@ local function respond(analysis, lng, lat)
     -- input type and values
     for i, schema in ipairs(query_repr.input_schema) do
         local val = query_repr.input_value[i]
-        if schema == qs.POI_ATTR.NAME then
+        if schema == query_schema.POI_ATTR.NAME then
             args.name = val
-        elseif schema == qs.POI_ATTR.COORDINATES then
+        elseif schema == query_schema.POI_ATTR.COORDINATES then
             args.near_lng = val[1]
             args.near_lat = val[2]
-        elseif schema == qs.POI_ATTR.CITY then
+        elseif schema == query_schema.POI_ATTR.CITY then
             args.city = val
-        elseif schema == qs.POI_ATTR.TAG then
+        elseif schema == query_schema.POI_ATTR.TAG then
             args.tag = val
-        elseif schema == qs.POI_ATTR.GENERAL then
+        elseif schema == query_schema.POI_ATTR.GENERAL then
             args.func = val
         end
     end
 
     -- downstream type
-    if query_repr.downstream == qs.DOWNSTREAM.BAIDU_MAP then
+    if query_repr.downstream == query_schema.DOWNSTREAM.BAIDU_MAP then
         args.downstream = "baidu"
-    elseif query_repr.downstream == qs.DOWNSTREAM.DOCOMO then
+    elseif query_repr.downstream == query_schema.DOWNSTREAM.DOCOMO then
         args.downstream = "solr"
     else
         -- not specifying will be defaulted to baidu later in poi API
@@ -143,17 +143,21 @@ local function main(GET)
 
     -- query analysis
     --
+    local query_analysis = {}
     if GET.req_type == "tpl" then
-        rtn = match_with_template(GET.tpl, q, GET.lng, GET.lat)
+        query_analysis = match_with_template(GET.tpl, q, GET.lng, GET.lat)
     else
-        rtn = match_with_func(GET.func, q, GET.lng, GET.lat)
+        query_analysis = match_with_func(GET.func, q, GET.lng, GET.lat)
     end
 
     -- responder
     --
-    local answer = respond(query_analysis, lng, lat)
+    local answer = {errno = 0, errmsg = 'tpl not matched'}
+    if query_analysis.matched then
+        answer = respond(query_analysis, lng, lat)
+    end
 
-    ngx.say(json.encode(rtn))
+    ngx.say(json.encode(answer))
 end
 
 main(GET)
