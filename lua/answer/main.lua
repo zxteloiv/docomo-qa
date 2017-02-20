@@ -49,7 +49,8 @@ local function dispatch(rule_list, question, lng, lat)
 end
 
 -- blend
--- merge all the doclists returned from various subsearchers and do some ranking
+-- merge all the doclists returned from various subsearchers and do some ranking.
+-- Right now reranking is based on match score * individual doc score
 --
 -- Parameters:
 --  doclists: an array of multiple returned doclist from all subsearchers
@@ -57,7 +58,24 @@ end
 -- Return:
 --  the blended and re-ranked doclist
 local function blend(doclists)
-    return {}
+    local alldocs = {}
+    for _, doclist in ipairs(doclists) do
+        local match_score = doclist.match_score
+        if #(doclist.data) > 0 then
+            local max_score = doclist.data[1].score
+            for _, doc in ipairs(doclist.data) do
+                if not doc.score then
+                    doc.score = 0.5
+                else
+                    doc.score = doc.score * match_score / max_score
+                end
+                table.insert(alldocs, doc)
+            end
+        end
+    end
+
+    table.sort(alldocs, function (x, y) return x.score > y.score end)
+    return alldocs
 end
 
 -- main API function starts here
@@ -79,8 +97,9 @@ else
 end
 
 local doclists = dispatch(rule_list, POST.q, lng, lat) 
-local result = blend(doclists)
+local ranked_list = blend(doclists)
 
-ngx.say("[end]")
+local result = {errno = 0, errmsg = 'success', data = ranked_list, reprtype = ""}
+ngx.say(json.encode(result))
 
 

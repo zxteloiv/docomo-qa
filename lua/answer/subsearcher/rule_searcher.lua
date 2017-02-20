@@ -29,14 +29,13 @@ local function match_with_template(tpl, question, lng, lat)
 
     else
 
-        local matched = false
         local tpl_content = require(RULE_PATH .. tpl)
         local runner = template_container(tpl_content)
         local query_repr = query_schema.QueryRepr.new()
-        matched = runner:run(query_repr, question, lng, lat)
+        local match_score = runner:run(query_repr, question, lng, lat)
 
         local rtn = { errno = 0, errmsg = "template processed" }
-        rtn.matched = matched
+        rtn.match_score = match_score
         rtn.query_repr = query_repr
 
         return rtn
@@ -62,9 +61,9 @@ local function match_with_func(func, question, lng, lat)
     else
         local func_exe = require(RULE_PATH .. func)
         local query_repr = query_schema.QueryRepr.new()
-        local matched = func_exe.match(query_repr, question, lng, lat)
+        local match_score = func_exe.match(query_repr, question, lng, lat)
         local rtn = { errno = 0, errmsg = "func processed" }
-        rtn.matched = matched
+        rtn.match_score = match_score
         rtn.query_repr = query_repr
 
         return rtn
@@ -128,6 +127,7 @@ local function respond(analysis, lng, lat)
     rtn.data = res.data
     rtn.query_repr = analysis.query_repr
     rtn.downstream_args = args
+    rtn.match_score = analysis.match_score
 
     return rtn
 end
@@ -153,7 +153,7 @@ local function main(GET)
     -- responder
     --
     local answer = {errno = 0, errmsg = 'tpl not matched'}
-    if query_analysis.matched then
+    if query_analysis.match_score and query_analysis.match_score > 0 then
         answer = respond(query_analysis, lng, lat)
     end
 

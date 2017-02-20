@@ -220,15 +220,15 @@ function Container:choose_matches(iter, question, lng, lat)
         end
     end
 
-    -- ngx.say("====> return " .. json.encode(best_match)) -- debug
-    return best_match
+    -- ngx.say("===> return " .. json.encode(best_match), " m=", max_cover) -- debug
+    return best_match, max_cover
 end
 
 function Container:run (query_repr, question, lng, lat)
     local iter = self:gmatch(question, 1)
 
-    local matches = self:choose_matches(iter, question, lng, lat)
-    if not matches then return false end
+    local matches, max_cover = self:choose_matches(iter, question, lng, lat)
+    if not matches then return 0 end
 
     -- matches refinement,
     -- change matches structure from index pair to the matched strings themselves
@@ -239,7 +239,7 @@ function Container:run (query_repr, question, lng, lat)
 
     -- match completed, set the representation
     self:set_repr_by_match(query_repr, matches, lng, lat)
-    return true
+    return max_cover * 1.0 / string.len(question)
 end
 
 -- export symbols
