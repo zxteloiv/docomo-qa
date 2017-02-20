@@ -7,7 +7,7 @@ local conf = {
     units = {
         {
             tag = ts.UNIT_TYPE.RE,
-            content = "where is|where|address|addr|地址|地点",
+            content = "where is|where|address|addr|地址|地点|路线",
             output = qs.POI_ATTR.ADDRESS,
         },
 
