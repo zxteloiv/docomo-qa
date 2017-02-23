@@ -25,6 +25,9 @@ local POI_ATTR = {
     TAG = 40,
 
     DESC = 100,
+
+    HEAD_PERSON = 101, -- the leader of this place, e.g. director of a museum
+
     GENERAL = 255
 }
 
