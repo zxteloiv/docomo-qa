@@ -164,6 +164,10 @@ function Container:set_repr_by_match (query_repr, matches, lng, lat)
         end
     end
 
+    if self.rule.output_pipe then
+        query_repr.output = self.rule.output_pipe
+    end
+
     -- process the fill section in a rule template
     local fills = self.rule.fills
 
