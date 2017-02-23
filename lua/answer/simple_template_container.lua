@@ -171,7 +171,7 @@ function Container:set_repr_by_match (query_repr, matches, lng, lat)
     -- process the fill section in a rule template
     local fills = self.rule.fills
 
-    for _, fill in ipairs(fills) do
+    if fills then for _, fill in ipairs(fills) do
         if fill == ts.FILL_TAGS.COORDINATES then
             table.insert(query_repr.input_schema, qs.POI_ATTR.COORDINATES)
             table.insert(query_repr.input_value, {lng, lat})
@@ -193,7 +193,7 @@ function Container:set_repr_by_match (query_repr, matches, lng, lat)
                 end
             end
         end
-    end
+    end end
 
     -- specify the downstream if any
     if self.rule.downstream then
