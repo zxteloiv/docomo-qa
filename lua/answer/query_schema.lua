@@ -31,6 +31,16 @@ local POI_ATTR = {
     GENERAL = 255
 }
 
+-- enum of available PERSON attributes
+local PERSON_ATTR = {
+    NAME = 0,
+    SEX = 1,
+    HOMETOWN = 2,
+    AGE = 3,
+
+    GENERAL = 255
+}
+
 -- define the searching index
 --
 local DOWNSTREAM = {
