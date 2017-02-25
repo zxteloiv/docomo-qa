@@ -62,6 +62,9 @@ QueryRepr.new = function()
         input_value = {},   -- {"Forbidden City", "Beijing"}
         output = {},        -- {{POI_ATTR.ADDRESS}, {POI_ATTR.NAME}, ...}
 
+        -- in case of complex questions
+        input_pipe = {},
+
         -- a simple mechanism to indicate whether a question as a whole contains
         -- sentiment, a value with larger integer means more sentiment
         sentiment = 0,

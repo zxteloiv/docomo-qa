@@ -168,6 +168,16 @@ function Container:set_repr_by_match (query_repr, matches, lng, lat)
         query_repr.output = self.rule.output_pipe
     end
 
+    if self.rule.input_pipe then
+        query_repr.input_pipe = self.rule.input_pipe
+        for i, _ in ipairs(query_repr.input_pipe) do
+            query_repr.input_pipe[i].value = {}
+            for _, unit in ipairs(query_repr.input_pipe[i].match_units) do
+                table.insert(query_repr.input_pipe[i].value, matches[unit])
+            end
+        end
+    end
+
     -- process the fill section in a rule template
     local fills = self.rule.fills
 
