@@ -95,6 +95,7 @@ end
 M_.QueryRepr = QueryRepr
 M_.QTYPE = QTYPE
 M_.POI_ATTR = POI_ATTR
+M_.PERSON_ATTR = PERSON_ATTR
 M_.DOWNSTREAM = DOWNSTREAM
 
 return M_
