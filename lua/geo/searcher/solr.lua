@@ -172,9 +172,15 @@ local search = function (args)
 
     until true end
 
-    -- if user used a special function word in request
+    -- if user used a special function word in request, and filter out those doesn't
+    -- have a relation value
     if args.func then
         search_over_predicate(docset, args.func)
+        local filtered_docset = {}
+        for _, doc in ipairs(docset) do if doc.general_val then
+            table.insert(filtered_docset, doc)
+        end end
+        docset = filtered_docset
     end
 
     return docset
