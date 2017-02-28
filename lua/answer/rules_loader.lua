@@ -43,6 +43,8 @@ local rule_list = {
     { "rule", "tpl", "loc-en-fuzzy_func-tag"},
     -- ... 国家图书馆 ... 创建时间 ...
     { "rule", "tpl", "loc-fuzzy_poi-func"},
+    -- ... hometown ... director ... National Library
+    { "rule", "tpl", "loc-en_loc-person-poi"},
 
     { "rule", "func", "empty_runner" }
 }
