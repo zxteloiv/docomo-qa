@@ -250,9 +250,9 @@ local function main(GET)
     --
     local req_type = "tpl"
     if GET.req_type then req_type = GET.req_type end
-    for i, _ in ipairs(answer.data) do
+    if answer.data then for i, _ in ipairs(answer.data) do
         answer.data[i][req_type] = GET[req_type]
-    end
+    end end
 
     ngx.say(json.encode(answer))
 end
