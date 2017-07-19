@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ROOT=$(pwd)
-NGINX_BIN=$ROOT/nginx
+NGINX_BIN=/usr/bin/openresty
 
 mkdir -p $ROOT/logs
 
