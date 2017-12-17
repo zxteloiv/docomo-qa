@@ -19,7 +19,7 @@ end
 -- search POI by near some place: lat,lng
 local radius = GET.r
 if GET.near_lng and GET.near_lat and not radius then
-    radius = 2000
+    radius = 1000
 end
 
 local args = {
