@@ -221,6 +221,8 @@ local function main(GET)
     local q = ngx.re.gsub(GET.q, "([A-Za-z])[ \t]+([^A-Za-z])", '$1$2', 'ju')
     q = ngx.re.gsub(q, "([^A-Za-z])[ \t]+([A-Za-z])", '$1$2', 'ju')
 
+    ngx.log(ngx.DEBUG, json.encode(GET))
+
     -- query analysis
     --
     local query_analysis = {}
@@ -229,6 +231,8 @@ local function main(GET)
     else
         query_analysis = match_with_func(GET.func, q, GET.lng, GET.lat)
     end
+
+    --ngx.log(ngx.DEBUG, json.encode(query_analysis))
 
     -- responder
     --

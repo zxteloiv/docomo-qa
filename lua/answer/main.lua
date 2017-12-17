@@ -96,6 +96,8 @@ else
     lat = nil
 end
 
+ngx.log(ngx.DEBUG, json.encode(POST))
+
 local doclists = dispatch(rule_list, POST.q, lng, lat) 
 local ranked_list = blend(doclists)
 
