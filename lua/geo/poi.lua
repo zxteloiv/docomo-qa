@@ -33,7 +33,7 @@ local args = {
 
 if downstream == "baidu" then
 
-    local rtn = {errno = 0, errmsg = "success", data = {}, src = ""}
+    local rtn = {errno = 0, errmsg = "success", data = {}}
 
     local baidu_result = search_baidu_place(args)
     if not baidu_result then
@@ -41,7 +41,6 @@ if downstream == "baidu" then
         rtn.errmsg = "failed to call baidu place search"
     else
         rtn.data = baidu_result
-        rtn.src = "baidu"
     end
 
     ngx.say(json.encode(rtn, {pretty = true}))

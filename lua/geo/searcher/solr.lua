@@ -21,7 +21,13 @@ local extract_solr_result = function (res)
     -- filter strategy
     if res.response.maxScore < 10 then return nil end
 
-    return res.response.docs
+    local docs = {}
+    for i, doc in ipairs(res.response.docs) do
+        doc.src = "solr"
+        table.insert(docs, doc)
+    end
+
+    return docs
 end
 
 local search_solr_with_location_args = function (location, args)
