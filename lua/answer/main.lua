@@ -12,18 +12,33 @@ local rule_list = require("./lua/answer/rules_loader").rule_list
 --
 -- Return:
 --  an array table of returned objects of all subsearchers
-local function dispatch(rule_list, question, lng, lat)
+local function dispatch(rule_list, question, lng, lat, age, time, sex)
     local multi_request_args = {}
 
+    ngx.log(ngx.DEBUG, "========= subsearcher params ========")
     for _, r in ipairs(rule_list) do
         local route = r[1]
         local request = { "/answer/subsearcher/" .. route, {args = {}}}
         if route == "rule" then
+
             request[2].args.req_type = r[2]
             request[2].args[r[2]] = r[3]
             request[2].args.lng = lng
             request[2].args.lat = lat
+            request[2].args.sex = sex
+            request[2].args.age = age
+            request[2].args.time = time
             request[2].args.q = question
+            ngx.log(ngx.DEBUG, json.encode(request))
+
+        elseif route == "geokb" then
+
+            request[2].args.sex = sex
+            request[2].args.age = age
+            request[2].args.time = time
+            request[2].args.q = question
+            ngx.log(ngx.DEBUG, json.encode(request))
+
         end
 
         table.insert(multi_request_args, request)
@@ -35,7 +50,9 @@ local function dispatch(rule_list, question, lng, lat)
 
     local doclists = {}
 
+    ngx.log(ngx.DEBUG, "========= subsearcher results ========")
     for _, res in ipairs(all_res) do repeat
+        ngx.log(ngx.DEBUG, res.status)
         if not res.status == 200 or not res.body then break end
         local rtn = json.decode(res.body)
         if not rtn then break end
@@ -98,7 +115,7 @@ end
 
 ngx.log(ngx.DEBUG, json.encode(POST))
 
-local doclists = dispatch(rule_list, POST.q, lng, lat) 
+local doclists = dispatch(rule_list, POST.q, lng, lat, POST.age, POST.time, POST.sex) 
 local ranked_list = blend(doclists)
 
 local result = {errno = 0, errmsg = 'success', data = ranked_list, reprtype = ""}

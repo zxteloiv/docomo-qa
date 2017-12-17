@@ -2,7 +2,7 @@ local M_ = {}
 
 local rule_list_debug = {
     -- test
-    { "rule", "tpl", "en_poi-predicate"},
+    { "geokb", "placeholder", "" },
 }
 
 local rule_list = {
@@ -45,6 +45,10 @@ local rule_list = {
     { "rule", "tpl", "loc-fuzzy_poi-func"},
     -- ... hometown ... director ... National Library
     { "rule", "tpl", "loc-en_loc-person-poi"},
+
+
+    -- curated GeoKB subsearcher
+    { "geokb", "", "" },
 
     { "rule", "func", "empty_runner" }
 }
