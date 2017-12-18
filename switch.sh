@@ -12,13 +12,6 @@ if [ "$1" == "start" ]; then
     if [ $? -eq 0 ]; then
         echo successfully started!
     fi
-elif [ "$1" == "docker" ]; then
-    echo root: $ROOT
-    echo conf: conf/nginx.conf
-    $NGINX_BIN -c conf/nginx.docker.conf -p $ROOT/ -g "daemon off;"
-    if [ $? -eq 0 ]; then
-        echo successfully started!
-    fi
 elif [ "$1" == "stop" -o "$1" == "reload" ]; then
     echo root: $ROOT
     echo conf: conf/nginx.conf
