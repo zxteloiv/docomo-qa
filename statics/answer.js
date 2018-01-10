@@ -63,6 +63,7 @@ var render_data = function(pois) {
         "名称", "地址", "简介",
         "name", "addr", "class",
         "分店", "营业时间", "电话",
+        "en", "zh", "general_val",
         "popularity",
         "门票价格", "服务评分", "环境评分",
         '推荐菜品', '人均消费',
@@ -70,7 +71,7 @@ var render_data = function(pois) {
         '入离店时间', '联系方式', '每晚最低价格',
         '酒店设施','房间设施','酒店服务'
     ];
-    var rename_fields = { popularity: '流行程度', name: '名称', addr: '地址', 'class': '分类', 'rating': '评价' };
+    var rename_fields = { popularity: '流行程度', name: '名称', addr: '地址', 'class': '分类', 'rating': '评价', 'en': '英文', 'zh': '中文', 'general_val': '答案' };
 
     pois.forEach(function(poi) {
         var row = $("<div>").addClass("row");
