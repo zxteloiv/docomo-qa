@@ -50,6 +50,9 @@ local rule_list = {
     -- curated GeoKB subsearcher
     { "geokb", "", "" },
 
+    -- cqa subsearcher
+    { "cqa", "", "" },
+
     { "rule", "func", "empty_runner" }
 }
 

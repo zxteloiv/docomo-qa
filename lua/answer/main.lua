@@ -39,6 +39,11 @@ local function dispatch(rule_list, question, lng, lat, age, time, sex)
             request[2].args.q = question
             ngx.log(ngx.DEBUG, json.encode(request))
 
+        elseif route == "cqa" then
+
+            request[2].args.q = question
+            ngx.log(ngx.DEBUG, json.encode(request))
+
         end
 
         table.insert(multi_request_args, request)
