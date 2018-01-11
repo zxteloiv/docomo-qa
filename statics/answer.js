@@ -12,47 +12,89 @@ var handle_submit = function() {
     var time = $('#time').val();
     var geo_arr = $('#geo').val().split(',');
 
-    $.ajax('/answer', {
-        method: "POST",
-        dataType: "json",
-        data: {
-            q: query,
-            domain: domain,
-            city: city,
-            sex: sex,
-            age: age,
-            time: time,
-            lat: geo_arr[1],
-            lng: geo_arr[0],
-        },
-        success: function(data, state, jqXHR) {
-            if (!data || !('errno' in data) || !('errmsg' in data)) {
-                console.log("returned data is not valid.");
-                $('#searchresult').text('').append($('<span>').addClass('label label-warning').text(
-                    'invalid data received'
-                ));
-                return;
-            }
+    var backend = $('#backend').val();
 
-            if (data.errno > 0) {
-                console.log("server error: " + data.errno + "\n" + data.errmsg);
-                if (data.errno === 1) {
-                    $('#searchresult').text('').append($('<span>')
-                        .addClass('label label-danger').text( data.errmsg ));
-                } else {
+    if (backend === "kbqa") {
+
+        $.ajax('/answer', {
+            method: "POST",
+            dataType: "json",
+            data: {
+                q: query,
+                domain: domain,
+                city: city,
+                sex: sex,
+                age: age,
+                time: time,
+                lat: geo_arr[1],
+                lng: geo_arr[0],
+            },
+            success: function(data, state, jqXHR) {
+                if (!data || !('errno' in data) || !('errmsg' in data)) {
+                    console.log("returned data is not valid.");
                     $('#searchresult').text('').append($('<span>').addClass('label label-warning').text(
-                        'Sorry, we can not understand your question.'
+                        'invalid data received'
                     ));
+                    return;
                 }
-                return;
-            }
 
-            render_data(data.data);
-        },
-        error: function(jqXHR, state, err) {
-            console.log(state + ": answer server api error\n" + err)
-        }
-    });
+                if (data.errno > 0) {
+                    console.log("server error: " + data.errno + "\n" + data.errmsg);
+                    if (data.errno === 1) {
+                        $('#searchresult').text('').append($('<span>')
+                            .addClass('label label-danger').text( data.errmsg ));
+                    } else {
+                        $('#searchresult').text('').append($('<span>').addClass('label label-warning').text(
+                            'Sorry, we can not understand your question.'
+                        ));
+                    }
+                    return;
+                }
+
+                render_data(data.data);
+            },
+            error: function(jqXHR, state, err) {
+                console.log(state + ": answer server api error\n" + err)
+            }
+        });
+
+    } else {
+
+        $.ajax('/answer/subsearcher/cqa', {
+            method: "get",
+            dataType: "json",
+            data: {
+                q: query,
+            },
+            success: function(data, state, jqXHR) {
+                if (!data || !('errno' in data)) {
+                    console.log("returned data is not valid.");
+                    $('#searchresult').text('').append($('<span>').addClass('label label-warning').text(
+                        'invalid data received'
+                    ));
+                    return;
+                }
+
+                if (data.errno > 0) {
+                    console.log("server error: " + data.errno + "\n");
+                    $('#searchresult').text('').append($('<span>').addClass('label label-warning').text(
+                        'Sorry, we can not fulfill your question.'
+                    ));
+                    return;
+                }
+
+                $("#searchresult").html("");
+                data.data.forEach(function(ans) {
+                    var p = $("<p>").text(ans);
+                    $("#searchresult").append(p);
+                    $("#searchresult").append("<hr>");
+                }); 
+            },
+            error: function(jqXHR, state, err) {
+                console.log(state + ": answer server api error\n" + err)
+            }
+        });
+    }
 
     return false;
 };

@@ -125,12 +125,13 @@ local search_by_name = function (name, docset)
 end
 
 local function search_over_predicate(docset, func)
-    local primitives = mongo.search_primitive_predicate(func)
-    if not primitives then
-        primitives = {func}
-    else
-        table.insert(primitives, func)
-    end
+    --local primitives = mongo.search_primitive_predicate(func)
+    --if not primitives then
+    --    primitives = {func}
+    --else
+    --    table.insert(primitives, func)
+    --end
+    primitives = {func}
     -- ngx.say("primitives: " .. json.encode(primitives)) -- debug
 
     for i, doc in ipairs(docset) do repeat
@@ -165,18 +166,18 @@ local search = function (args)
     end
 
     -- now in docset: entity_id and entity_name, try to retrieve more data, by name
-    for i, ent in ipairs(docset) do repeat
-
-        if not ent.zh then break end
-        local res = mongo.search_baidu_by_name(ent.zh)
-        if not res then break end
-
-        --docset[i].baidu = res[1]
-        for k, v in pairs(res[1]) do
-            docset[i][k] = v
-        end
-
-    until true end
+--    for i, ent in ipairs(docset) do repeat
+--
+--        if not ent.zh then break end
+--        local res = mongo.search_baidu_by_name(ent.zh)
+--        if not res then break end
+--
+--        --docset[i].baidu = res[1]
+--        for k, v in pairs(res[1]) do
+--            docset[i][k] = v
+--        end
+--
+--    until true end
 
     -- if user used a special function word in request, and filter out those doesn't
     -- have a relation value
