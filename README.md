@@ -1,6 +1,13 @@
 # docomo-qa
 An online question answering system in cooperation with docomo, implemented in OpenResty.
 
+## **disclaimer**
+
+This is a deprecated system. Please consider not using it.
+The key value of this repo, at this time, is only two-fold.
+- It's a demonstration of Lua and Openresty (though early versions), and thus simple and easy to follow.
+- It had implemented a template engine that can parse user questions and call downstreams (subsearchers).
+
 ## install lua dependencies
 
 using luarocks to install:
